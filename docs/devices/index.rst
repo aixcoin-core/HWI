@@ -98,6 +98,8 @@ Device APIs
    :members:
 .. automodule:: hwilib.devices.trezor
    :members:
+.. automodule:: hwilib.devices.onekey
+   :members:
 .. automodule:: hwilib.devices.digitalbitbox
    :members:
 .. automodule:: hwilib.devices.bitbox02
