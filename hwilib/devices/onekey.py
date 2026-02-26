@@ -53,7 +53,7 @@ def _get_usb_id(device: Any) -> Optional[Tuple[int, int]]:
 
 
 def _is_onekey_device(usb_id: Optional[Tuple[int, int]], label: str, vendor: str) -> bool:
-    if usb_id in ONEKEY_EXCLUSIVE_USB_IDS:
+    if usb_id in ONEKEY_HID_IDS:
         return True
 
     label_lower = label.lower()
@@ -117,10 +117,8 @@ class OnekeyClient(TrezorClient):
         self.type = "OneKey"
 
     def _prepare_device(self) -> None:
-        # For OneKey, direct feature refresh avoids extra unlock prompts during
-        # discovery while keeping lock-state checks in _check_unlocked().
-        self.coin_name = "Bitcoin" if self.chain == Chain.MAIN else "Testnet"
-        self.client.refresh_features()
+        # OneKey follows the Trezor unlock/session flow for command execution.
+        super(OnekeyClient, self)._prepare_device()
 
 
 def enumerate(

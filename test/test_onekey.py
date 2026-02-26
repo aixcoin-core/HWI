@@ -60,9 +60,10 @@ class TestOnekeyHelpers(unittest.TestCase):
 
     def test_is_onekey_device(self):
         self.assertTrue(onekey._is_onekey_device((0x1209, 0x4F4A), "", ""))
+        self.assertTrue(onekey._is_onekey_device((0x1209, 0x53C1), "Wallet", "Vendor"))
         self.assertTrue(onekey._is_onekey_device((0x1209, 0x53C0), "OneKey Touch", "Unknown"))
         self.assertTrue(onekey._is_onekey_device((0x1209, 0x53C0), "Wallet", "OneKey"))
-        self.assertFalse(onekey._is_onekey_device((0x1209, 0x53C0), "Wallet", "Vendor"))
+        self.assertFalse(onekey._is_onekey_device((0x0001, 0x0002), "Wallet", "Vendor"))
 
     def test_is_onekey_transport_with_dict_device(self):
         one_key_dict = _DictTransport({"product_string": "OneKey Pro", "manufacturer_string": "Unknown"})
