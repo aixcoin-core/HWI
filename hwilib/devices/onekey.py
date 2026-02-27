@@ -6,7 +6,6 @@ OneKey
 from ..common import Chain
 from ..errors import (
     DEVICE_NOT_INITIALIZED,
-    DeviceNotReadyError,
     common_err_msgs,
     handle_errors,
 )
@@ -34,6 +33,13 @@ ONEKEY_WEBUSB_IDS = ONEKEY_HID_IDS.copy()
 ONEKEY_EXCLUSIVE_USB_IDS = {
     (0x1209, 0x4F4A),
     (0x1209, 0x4F4B),
+}
+
+ONEKEY_HOST_PIN_MODELS = {
+    "1",
+    "classic",
+    "classic1s",
+    "classicpure",
 }
 
 
@@ -90,6 +96,20 @@ def _is_onekey_transport(device: Any, usb_id: Optional[Tuple[int, int]]) -> bool
                 return False
 
     return False
+
+
+def _normalize_model(model: Optional[str]) -> str:
+    return (model or "").lower().replace("_", "").replace("-", "")
+
+
+def _uses_host_pin(model: Optional[str]) -> bool:
+    return _normalize_model(model) in ONEKEY_HOST_PIN_MODELS
+
+
+def _locked_instructions(model: Optional[str]) -> str:
+    if _uses_host_pin(model):
+        return "OneKey is locked. Unlock by using 'promptpin' and then 'sendpin'."
+    return "OneKey is locked. Please unlock it on the device and try again."
 
 
 class OnekeyClient(TrezorClient):
@@ -171,19 +191,19 @@ def enumerate(
                 d_data["needs_passphrase_sent"] = False
 
             if d_data["needs_pin_sent"]:
-                raise DeviceNotReadyError(
-                    "OneKey is locked. Unlock by using 'promptpin' and then 'sendpin'."
-                )
+                d_data["warnings"] = [[_locked_instructions(client.client.features.model)]]
 
             if d_data["needs_passphrase_sent"] and password is None:
-                d_data["warnings"] = [[
+                d_data.setdefault("warnings", []).append([
                     "Passphrase protection enabled but passphrase was not provided. "
                     "Using default passphrase of the empty string (\"\")"
-                ]]
+                ])
 
-            if client.client.features.initialized:
+            if client.client.features.initialized and not d_data["needs_pin_sent"]:
                 d_data["fingerprint"] = client.get_master_fingerprint().hex()
                 d_data["needs_passphrase_sent"] = False
+            elif client.client.features.initialized and d_data["needs_pin_sent"]:
+                d_data["fingerprint"] = None
             else:
                 d_data["error"] = "Not initialized"
                 d_data["code"] = DEVICE_NOT_INITIALIZED
