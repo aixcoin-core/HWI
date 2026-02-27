@@ -3,17 +3,21 @@ OneKey
 ******
 """
 
-from ..common import Chain
+from ..common import AddressType, Chain
+from ..descriptor import MultisigDescriptor
+from ..hwwclient import HardwareWalletClient
 from ..errors import (
     DEVICE_NOT_INITIALIZED,
     common_err_msgs,
     handle_errors,
 )
-from .trezor import TrezorClient
+from .trezor import TrezorClient as SharedClient
 from .trezorlib.transport import (
     hid,
     webusb,
 )
+from ..key import ExtendedKey
+from ..psbt import PSBT
 
 from typing import (
     Any,
@@ -21,6 +25,7 @@ from typing import (
     List,
     Optional,
     Tuple,
+    Union,
 )
 
 ONEKEY_HID_IDS = {
@@ -112,7 +117,7 @@ def _locked_instructions(model: Optional[str]) -> str:
     return "OneKey is locked. Please unlock it on the device and try again."
 
 
-class OnekeyClient(TrezorClient):
+class OnekeyClient(HardwareWalletClient):
     def __init__(
         self,
         path: str,
@@ -124,7 +129,8 @@ class OnekeyClient(TrezorClient):
         The `OnekeyClient` is a `HardwareWalletClient` for interacting with
         OneKey devices.
         """
-        super(OnekeyClient, self).__init__(
+        super(OnekeyClient, self).__init__(path, password, expert, chain)
+        self._client = SharedClient(
             path,
             password,
             expert,
@@ -134,11 +140,57 @@ class OnekeyClient(TrezorClient):
             "127.0.0.1:21324",
             None,
         )
+        self._client.type = "OneKey"
         self.type = "OneKey"
 
     def _prepare_device(self) -> None:
-        # Use the shared unlock/session flow implemented by the base client.
-        super(OnekeyClient, self)._prepare_device()
+        self._client._prepare_device()
+
+    @property
+    def client(self) -> Any:
+        return self._client.client
+
+    def get_pubkey_at_path(self, path: str) -> ExtendedKey:
+        return self._client.get_pubkey_at_path(path)
+
+    def sign_tx(self, tx: PSBT) -> PSBT:
+        return self._client.sign_tx(tx)
+
+    def sign_message(self, message: Union[str, bytes], bip32_path: str) -> str:
+        return self._client.sign_message(message, bip32_path)
+
+    def display_singlesig_address(self, bip32_path: str, addr_type: AddressType) -> str:
+        return self._client.display_singlesig_address(bip32_path, addr_type)
+
+    def display_multisig_address(self, addr_type: AddressType, multisig: MultisigDescriptor) -> str:
+        return self._client.display_multisig_address(addr_type, multisig)
+
+    def setup_device(self, label: str = "", passphrase: str = "") -> bool:
+        return self._client.setup_device(label, passphrase)
+
+    def wipe_device(self) -> bool:
+        return self._client.wipe_device()
+
+    def restore_device(self, label: str = "", word_count: int = 24) -> bool:
+        return self._client.restore_device(label, word_count)
+
+    def backup_device(self, label: str = "", passphrase: str = "") -> bool:
+        return self._client.backup_device(label, passphrase)
+
+    def close(self) -> None:
+        self._client.close()
+
+    def prompt_pin(self) -> bool:
+        return self._client.prompt_pin()
+
+    def send_pin(self, pin: str) -> bool:
+        return self._client.send_pin(pin)
+
+    def toggle_passphrase(self) -> bool:
+        return self._client.toggle_passphrase()
+
+    def can_sign_taproot(self) -> bool:
+        return self._client.can_sign_taproot()
 
 
 def enumerate(

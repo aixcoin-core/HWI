@@ -261,31 +261,6 @@ WEBUSB_IDS = TREZORS.copy()
 SIMULATOR_PATH = "127.0.0.1:21324"
 
 
-def _contains_onekey_marker(value: Any) -> bool:
-    if not value:
-        return False
-    if isinstance(value, bytes):
-        value = value.decode(errors="ignore")
-    return "onekey" in str(value).lower()
-
-
-def _is_onekey_transport(dev: Device) -> bool:
-    if isinstance(dev, hid.HidTransport):
-        return _contains_onekey_marker(dev.device.get("product_string")) or _contains_onekey_marker(
-            dev.device.get("manufacturer_string")
-        )
-
-    if isinstance(dev, webusb.WebUsbTransport):
-        try:
-            return _contains_onekey_marker(dev.device.getProduct()) or _contains_onekey_marker(
-                dev.device.getManufacturer()
-            )
-        except Exception:
-            return False
-
-    return False
-
-
 def get_path_transport(
     path: str,
     hid_ids: Set[Tuple[int, int]],
@@ -883,9 +858,6 @@ def enumerate(password: Optional[str] = None, expert: bool = False, chain: Chain
     if allow_emulators:
         devs.extend(udp.UdpTransport.enumerate())
     for dev in devs:
-        if _is_onekey_transport(dev):
-            continue
-
         d_data: Dict[str, Any] = {}
 
         d_data['type'] = 'trezor'

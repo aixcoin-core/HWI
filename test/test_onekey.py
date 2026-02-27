@@ -4,7 +4,6 @@ import unittest
 from unittest import mock
 
 from hwilib.devices import onekey
-from hwilib.devices import trezor
 
 
 class _DictTransport:
@@ -35,11 +34,6 @@ class _RawUsbDevice:
 class _FailingRawUsbDevice(_RawUsbDevice):
     def getProduct(self):
         raise RuntimeError("device query failed")
-
-
-class _WebUsbTransport:
-    def __init__(self, raw_device):
-        self.device = raw_device
 
 
 class _EnumerateTransport(_DictTransport):
@@ -94,7 +88,7 @@ class TestOnekeyHelpers(unittest.TestCase):
     def test_contains_onekey_marker(self):
         self.assertTrue(onekey._contains_onekey_marker("OneKey Pro"))
         self.assertTrue(onekey._contains_onekey_marker(b"ONEKEY Mini"))
-        self.assertFalse(onekey._contains_onekey_marker("Trezor"))
+        self.assertFalse(onekey._contains_onekey_marker("Other Wallet"))
         self.assertFalse(onekey._contains_onekey_marker(None))
 
     def test_get_usb_id(self):
@@ -184,35 +178,6 @@ class TestOnekeyEnumerate(unittest.TestCase):
         self.assertEqual(len(results), 1)
         self.assertFalse(results[0]["needs_pin_sent"])
         self.assertEqual(results[0]["fingerprint"], "f23f9fd2")
-
-
-class TestTrezorOnekeyFilterHelpers(unittest.TestCase):
-    def test_trezor_is_onekey_transport_hid(self):
-        class FakeHidTransport:
-            def __init__(self, raw_device):
-                self.device = raw_device
-
-        with mock.patch.object(trezor.hid, "HidTransport", FakeHidTransport):
-            one_key = FakeHidTransport({"product_string": "OneKey Pro", "manufacturer_string": "Vendor"})
-            self.assertTrue(trezor._is_onekey_transport(one_key))
-
-            not_onekey = FakeHidTransport({"product_string": "Wallet", "manufacturer_string": "Vendor"})
-            self.assertFalse(trezor._is_onekey_transport(not_onekey))
-
-    def test_trezor_is_onekey_transport_webusb(self):
-        class FakeWebUsbTransport:
-            def __init__(self, raw_device):
-                self.device = raw_device
-
-        with mock.patch.object(trezor.webusb, "WebUsbTransport", FakeWebUsbTransport):
-            one_key = FakeWebUsbTransport(_RawUsbDevice(product="OneKey Pro", manufacturer="Vendor"))
-            self.assertTrue(trezor._is_onekey_transport(one_key))
-
-            failing = FakeWebUsbTransport(_FailingRawUsbDevice(product="OneKey Pro", manufacturer="Vendor"))
-            self.assertFalse(trezor._is_onekey_transport(failing))
-
-    def test_trezor_is_onekey_transport_unknown_type(self):
-        self.assertFalse(trezor._is_onekey_transport(_WebUsbTransport(_RawUsbDevice())))
 
 
 if __name__ == "__main__":
