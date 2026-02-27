@@ -63,8 +63,8 @@ The table below lists what devices and features are supported for each device.
 
 \* There are some caveats. See the `sign_tx` for these devices.
 
-OneKey support currently reuses the Trezor transport and command path. In practice,
-feature behavior follows the Trezor entries above for matching firmware capabilities.
+OneKey capability behavior depends on device model and firmware.
+For locked devices, model-specific unlock instructions are returned in ``enumerate`` warnings.
 
 Support Policy
 ================

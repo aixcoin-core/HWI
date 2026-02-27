@@ -122,7 +122,7 @@ class OnekeyClient(TrezorClient):
     ) -> None:
         """
         The `OnekeyClient` is a `HardwareWalletClient` for interacting with
-        OneKey devices compatible with the Trezor protocol.
+        OneKey devices.
         """
         super(OnekeyClient, self).__init__(
             path,
@@ -137,7 +137,7 @@ class OnekeyClient(TrezorClient):
         self.type = "OneKey"
 
     def _prepare_device(self) -> None:
-        # OneKey follows the Trezor unlock/session flow for command execution.
+        # Use the shared unlock/session flow implemented by the base client.
         super(OnekeyClient, self)._prepare_device()
 
 
