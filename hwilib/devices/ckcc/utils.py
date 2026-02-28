@@ -46,7 +46,7 @@ def dfu_parse(fd):
             yield fd.tell()
             yield elem.size
 
-# Adapted from https://github.com/petertodd/python-bitcoinlib/blob/master/bitcoin/base58.py
+# Adapted from https://github.com/petertodd/python-aixcoinlib/blob/master/aixcoin/base58.py
 def decode_xpub(s):
     assert s[1:].startswith('pub')
     b58_digits = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
