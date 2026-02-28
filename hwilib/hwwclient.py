@@ -49,7 +49,7 @@ class HardwareWalletClient(object):
                                   "does not implement this method")
 
     def sign_tx(self, psbt: PSBT) -> Dict[str, str]:
-        """Sign a partially signed bitcoin transaction (PSBT).
+        """Sign a partially signed aixcoin transaction (PSBT).
 
         Return {"psbt": <base64 psbt string>}.
         """
@@ -59,9 +59,9 @@ class HardwareWalletClient(object):
     def sign_message(
         self, message: Union[str, bytes], bip32_path: str
     ) -> Dict[str, str]:
-        """Sign a message (bitcoin message signing).
+        """Sign a message (aixcoin message signing).
 
-        Sign the message according to the bitcoin message signing standard:
+        Sign the message according to the aixcoin message signing standard:
         usually, the message is a string that is encoded to bytes;
         anyway, if the message is already bytes it is processed untouched.
 

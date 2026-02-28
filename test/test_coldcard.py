@@ -10,7 +10,7 @@ import time
 import unittest
 
 from hwilib.cli import process_commands
-from test_device import DeviceTestCase, start_bitcoind, TestDeviceConnect, TestDisplayAddress, TestGetKeypool, TestGetDescriptors, TestSignMessage, TestSignTx
+from test_device import DeviceTestCase, start_aixcoind, TestDeviceConnect, TestDisplayAddress, TestGetKeypool, TestGetDescriptors, TestSignMessage, TestSignTx
 
 def coldcard_test_suite(simulator, rpc, userpass, interface):
     try:
@@ -118,11 +118,11 @@ def coldcard_test_suite(simulator, rpc, userpass, interface):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Test Coldcard implementation')
     parser.add_argument('simulator', help='Path to the Coldcard simulator')
-    parser.add_argument('bitcoind', help='Path to bitcoind binary')
+    parser.add_argument('aixcoind', help='Path to aixcoind binary')
     parser.add_argument('--interface', help='Which interface to send commands over', choices=['library', 'cli', 'bindist'], default='library')
     args = parser.parse_args()
 
-    # Start bitcoind
-    rpc, userpass = start_bitcoind(args.bitcoind)
+    # Start aixcoind
+    rpc, userpass = start_aixcoind(args.aixcoind)
 
     sys.exit(not coldcard_test_suite(args.simulator, rpc, userpass, args.interface))

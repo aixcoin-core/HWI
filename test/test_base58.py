@@ -8,7 +8,7 @@ import unittest
 import hwilib.base58 as base58
 
 # Taken from Bitcoin Core
-# https://github.com/bitcoin/bitcoin/blob/master/src/test/data/base58_encode_decode.json
+# https://github.com/aixcoin/aixcoin/blob/master/src/test/data/base58_encode_decode.json
 TEST_VECTORS: List[Tuple[str, str]] = [
     ("", ""),
     ("61", "2g"),

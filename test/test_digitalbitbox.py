@@ -9,7 +9,7 @@ import sys
 import time
 import unittest
 
-from test_device import DeviceTestCase, start_bitcoind, TestDeviceConnect, TestGetKeypool, TestGetDescriptors, TestSignTx, TestSignMessage
+from test_device import DeviceTestCase, start_aixcoind, TestDeviceConnect, TestGetKeypool, TestGetDescriptors, TestSignTx, TestSignMessage
 
 from hwilib.devices.digitalbitbox import BitboxSimulator, send_plain, send_encrypt
 
@@ -166,11 +166,11 @@ def digitalbitbox_test_suite(simulator, rpc, userpass, interface):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Test Digital Bitbox implementation')
     parser.add_argument('simulator', help='Path to simulator binary')
-    parser.add_argument('bitcoind', help='Path to bitcoind binary')
+    parser.add_argument('aixcoind', help='Path to aixcoind binary')
     parser.add_argument('--interface', help='Which interface to send commands over', choices=['library', 'cli', 'bindist'], default='library')
     args = parser.parse_args()
 
-    # Start bitcoind
-    rpc, userpass = start_bitcoind(args.bitcoind)
+    # Start aixcoind
+    rpc, userpass = start_aixcoind(args.aixcoind)
 
     sys.exit(not digitalbitbox_test_suite(args.simulator, rpc, userpass, args.interface))

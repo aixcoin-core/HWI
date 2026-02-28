@@ -1,7 +1,7 @@
 # mypy: ignore-errors
 import re
 
-# From: https://github.com/bitcoin/bitcoin/blob/master/src/script/descriptor.cpp
+# From: https://github.com/aixcoin/aixcoin/blob/master/src/script/descriptor.cpp
 
 def PolyMod(c, val):
     c0 = c >> 35

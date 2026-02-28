@@ -14,21 +14,21 @@ We are not liable for any coins that may be lost through this method. The softwa
 
 This method of using hardware wallets uses Bitcoin Core as the wallet for monitoring the blockchain. It allows a user to use their own full node instead of relying on an SPV wallet or vendor provided software.
 
-HWI works with Bitcoin Core as of commit [c576979b78b541bf3b4a7cbeee989b55d268e3e1](https://github.com/bitcoin/bitcoin/commit/c576979b78b541bf3b4a7cbeee989b55d268e3e1). It is usable with Bitcoin Core >=0.18.0.
+HWI works with Bitcoin Core as of commit [c576979b78b541bf3b4a7cbeee989b55d268e3e1](https://github.com/aixcoin/aixcoin/commit/c576979b78b541bf3b4a7cbeee989b55d268e3e1). It is usable with Bitcoin Core >=0.18.0.
 
 ## Setup
 
 Clone Bitcoin Core and build it. Clone HWI.
 
 ```
-$ git clone https://github.com/bitcoin/bitcoin.git
-$ cd bitcoin
+$ git clone https://github.com/aixcoin/aixcoin.git
+$ cd aixcoin
 $ ./autogen.sh
 $ ./configure
 $ make
-$ src/bitcoind -daemon -addresstype=bech32 -changetype=bech32
+$ src/aixcoind -daemon -addresstype=bech32 -changetype=bech32
 $ cd ..
-$ git clone https://github.com/bitcoin-core/HWI.git
+$ git clone https://github.com/aixcoin-core/HWI.git
 $ cd HWI
 $ python3 setup.py install
 ```
@@ -54,12 +54,12 @@ $ ./hwi.py -f 8038ecd9 getkeypool --wpkh 0 1000
 We now create a new Bitcoin Core wallet and import the keys into Bitcoin Core. The output is formatted properly for Bitcoin Core so it can be copy and pasted.
 
 ```
-$ ../bitcoin/src/bitcoin-cli createwallet "coldcard" true
+$ ../aixcoin/src/aixcoin-cli createwallet "coldcard" true
 {
   "name": "coldcard",
   "warning": ""
 }
-$ ../bitcoin/src/bitcoin-cli -rpcwallet=coldcard importmulti '[{"desc": "wpkh([8038ecd9/84h/0h/0h]xpub6DR4rqx16YnCcfwFqgwvJdKiWrjDRzqxYTY44aoyHwZDSeSB5n2tqt42aYr9qPKhSKUdftPdTjhHrKKD6WGKVbuyhMvGH76VyKKZubg8o4P/0/*)#36sal9a4", "internal": false, "range": [0, 1000], "timestamp": "now", "keypool": true, "watchonly": true}, {"desc": "wpkh([8038ecd9/84h/0h/0h]xpub6DR4rqx16YnCcfwFqgwvJdKiWrjDRzqxYTY44aoyHwZDSeSB5n2tqt42aYr9qPKhSKUdftPdTjhHrKKD6WGKVbuyhMvGH76VyKKZubg8o4P/1/*)#nl2rc26w", "internal": true, "range": [0, 1000], "timestamp": "now", "keypool": true, "watchonly": true}]'
+$ ../aixcoin/src/aixcoin-cli -rpcwallet=coldcard importmulti '[{"desc": "wpkh([8038ecd9/84h/0h/0h]xpub6DR4rqx16YnCcfwFqgwvJdKiWrjDRzqxYTY44aoyHwZDSeSB5n2tqt42aYr9qPKhSKUdftPdTjhHrKKD6WGKVbuyhMvGH76VyKKZubg8o4P/0/*)#36sal9a4", "internal": false, "range": [0, 1000], "timestamp": "now", "keypool": true, "watchonly": true}, {"desc": "wpkh([8038ecd9/84h/0h/0h]xpub6DR4rqx16YnCcfwFqgwvJdKiWrjDRzqxYTY44aoyHwZDSeSB5n2tqt42aYr9qPKhSKUdftPdTjhHrKKD6WGKVbuyhMvGH76VyKKZubg8o4P/1/*)#nl2rc26w", "internal": true, "range": [0, 1000], "timestamp": "now", "keypool": true, "watchonly": true}]'
 
 [
   {
@@ -77,11 +77,11 @@ If the wallet was previously used, you will need to rescan the blockchain. You c
 Here are some examples (`<blockheight>` refers to a block height before the wallet was created).
 
 ```
-$ ../bitcoin/src/bitcoin-cli rescanblockchain <blockheight>
-$ ../bitcoin/src/bitcoin-cli rescanblockchain 500000 # Rescan from block 500000
+$ ../aixcoin/src/aixcoin-cli rescanblockchain <blockheight>
+$ ../aixcoin/src/aixcoin-cli rescanblockchain 500000 # Rescan from block 500000
 
-$ ../bitcoin/src/bitcoin-cli -rpcwallet=coldcard importmulti '[{"internal": true, "timestamp": <blockheight>, "desc": "wpkh([8038ecd9/84h/0h/0h]xpub6DR4rqx16YnCcfwFqgwvJdKiWrjDRzqxYTY44aoyHwZDSeSB5n2tqt42aYr9qPKhSKUdftPdTjhHrKKD6WGKVbuyhMvGH76VyKKZubg8o4P/1/*)#qw4uzsdd", "keypool": true, "range": [0, 1000], "watchonly": true}]'
-$ ../bitcoin/src/bitcoin-cli -rpcwallet=coldcard importmulti '[{"internal": true, "timestamp": 500000, "desc": "wpkh([8038ecd9/84h/0h/0h]xpub6DR4rqx16YnCcfwFqgwvJdKiWrjDRzqxYTY44aoyHwZDSeSB5n2tqt42aYr9qPKhSKUdftPdTjhHrKKD6WGKVbuyhMvGH76VyKKZubg8o4P/1/*)#qw4uzsdd", "keypool": true, "range": [0, 1000], "watchonly": true}]' # Imports and rescans from block 500000
+$ ../aixcoin/src/aixcoin-cli -rpcwallet=coldcard importmulti '[{"internal": true, "timestamp": <blockheight>, "desc": "wpkh([8038ecd9/84h/0h/0h]xpub6DR4rqx16YnCcfwFqgwvJdKiWrjDRzqxYTY44aoyHwZDSeSB5n2tqt42aYr9qPKhSKUdftPdTjhHrKKD6WGKVbuyhMvGH76VyKKZubg8o4P/1/*)#qw4uzsdd", "keypool": true, "range": [0, 1000], "watchonly": true}]'
+$ ../aixcoin/src/aixcoin-cli -rpcwallet=coldcard importmulti '[{"internal": true, "timestamp": 500000, "desc": "wpkh([8038ecd9/84h/0h/0h]xpub6DR4rqx16YnCcfwFqgwvJdKiWrjDRzqxYTY44aoyHwZDSeSB5n2tqt42aYr9qPKhSKUdftPdTjhHrKKD6WGKVbuyhMvGH76VyKKZubg8o4P/1/*)#qw4uzsdd", "keypool": true, "range": [0, 1000], "watchonly": true}]' # Imports and rescans from block 500000
 ```
 
 ## Usage
@@ -90,23 +90,23 @@ Usage of this primarily involves Bitcoin Core. Currently the GUI only supports g
 
 ### Receiving
 
-From the folder containing `bitcoin` and `HWI`, go into `bitcoin`. We will be doing most of the commands here.
+From the folder containing `aixcoin` and `HWI`, go into `aixcoin`. We will be doing most of the commands here.
 
 ```
-$ cd bitcoin
+$ cd aixcoin
 ```
 
 To get a new address, use `getnewaddress` as you normally would
 
 ```
-$ src/bitcoin-cli -rpcwallet=coldcard getnewaddress
+$ src/aixcoin-cli -rpcwallet=coldcard getnewaddress
 bcrt1qu8qe24zq5e2ahh4nkl6g5ysxlpn3nyf0xt026s
 ```
 
 This address belongs to your hardware wallet. You can check this by doing `getaddressinfo`:
 
 ```
-$ src/bitcoin-cli -rpcwallet=coldcard getaddressinfo bcrt1qu8qe24zq5e2ahh4nkl6g5ysxlpn3nyf0xt026s
+$ src/aixcoin-cli -rpcwallet=coldcard getaddressinfo bcrt1qu8qe24zq5e2ahh4nkl6g5ysxlpn3nyf0xt026s
 {
   "address": "bcrt1qu8qe24zq5e2ahh4nkl6g5ysxlpn3nyf0xt026s",
   "scriptPubKey": "0014e1c1955440a655dbdeb3b7f48a1206f86719912f",
@@ -144,7 +144,7 @@ This PSBT can be used with HWI to produce a signed PSBT which can then be finali
 
 For example, suppose I am sending to 1 BTC to bc1q257z5t76hedc36wmmzva05890ny3kxd7xfwrgy. First I create a funded psbt with BIP 32 derivation paths to be included:
 ```
-$ src/bitcoin-cli -rpcwallet=coldcard walletcreatefundedpsbt '[]' '[{"bc1q257z5t76hedc36wmmzva05890ny3kxd7xfwrgy":1}]' 0 '{"includeWatching":true}' true
+$ src/aixcoin-cli -rpcwallet=coldcard walletcreatefundedpsbt '[]' '[{"bc1q257z5t76hedc36wmmzva05890ny3kxd7xfwrgy":1}]' 0 '{"includeWatching":true}' true
 {
   "psbt": "cHNidP8BAHECAAAAAU8KWkCU7H4MYBiZHmLey6FavV3L3xLfy4tVEZoubx+2AAAAAAD+////AgDh9QUAAAAAFgAUVTwqL9q+W4jp29iZ19DlfMkbGb78eNcXAAAAABYAFLHuX3WRuPs3ypeQOziNw5qFlBH8AAAAAAABAR8AZc0dAAAAABYAFOHBlVRAplXb3rO39IoSBvhnGZEvIgYCIyDxz3Lnuizva+MtdJPOO9TGoldf5RziYDd63BZWA9QYgDjs2VQAAIABAACAAAAAgAAAAAAAAAAAAAAiAgP0HMQ2K693zCXTCudBUzemDhxLmFGETOnAV7vgDz2r9RiAOOzZVAAAgAEAAIAAAACAAQAAAAAAAAAA",
   "fee": 0.00002820,
@@ -156,7 +156,7 @@ $ src/bitcoin-cli -rpcwallet=coldcard walletcreatefundedpsbt '[]' '[{"bc1q257z5t
 Now I take the updated psbt and inspect it with `decodepsbt`:
 
 ```
-$ src/bitcoin-cli decodepsbt cHNidP8BAHECAAAAAU8KWkCU7H4MYBiZHmLey6FavV3L3xLfy4tVEZoubx+2AAAAAAD+////AgDh9QUAAAAAFgAUVTwqL9q+W4jp29iZ19DlfMkbGb78eNcXAAAAABYAFLHuX3WRuPs3ypeQOziNw5qFlBH8AAAAAAABAR8AZc0dAAAAABYAFOHBlVRAplXb3rO39IoSBvhnGZEvIgYCIyDxz3Lnuizva+MtdJPOO9TGoldf5RziYDd63BZWA9QYgDjs2VQAAIABAACAAAAAgAAAAAAAAAAAAAAiAgP0HMQ2K693zCXTCudBUzemDhxLmFGETOnAV7vgDz2r9RiAOOzZVAAAgAEAAIAAAACAAQAAAAAAAAAA
+$ src/aixcoin-cli decodepsbt cHNidP8BAHECAAAAAU8KWkCU7H4MYBiZHmLey6FavV3L3xLfy4tVEZoubx+2AAAAAAD+////AgDh9QUAAAAAFgAUVTwqL9q+W4jp29iZ19DlfMkbGb78eNcXAAAAABYAFLHuX3WRuPs3ypeQOziNw5qFlBH8AAAAAAABAR8AZc0dAAAAABYAFOHBlVRAplXb3rO39IoSBvhnGZEvIgYCIyDxz3Lnuizva+MtdJPOO9TGoldf5RziYDd63BZWA9QYgDjs2VQAAIABAACAAAAAgAAAAAAAAAAAAAAiAgP0HMQ2K693zCXTCudBUzemDhxLmFGETOnAV7vgDz2r9RiAOOzZVAAAgAEAAIAAAACAAQAAAAAAAAAA
 {
   "tx": {
     "txid": "e51392c82e13bbfe714c73361aff14ac1a1637abf37587a562844ae5a4265adf",
@@ -261,13 +261,13 @@ Follow the onscreen instructions, check everything, and approve the transaction.
 We can now take the PSBT, finalize it, and broadcast it with Bitcoin Core
 
 ```
-$ cd ../bitcoin
-$ src/bitcoin-cli finalizepsbt cHNidP8BAHECAAAAAU8KWkCU7H4MYBiZHmLey6FavV3L3xLfy4tVEZoubx+2AAAAAAD+////AgDh9QUAAAAAFgAUVTwqL9q+W4jp29iZ19DlfMkbGb78eNcXAAAAABYAFLHuX3WRuPs3ypeQOziNw5qFlBH8AAAAAAABAR8AZc0dAAAAABYAFOHBlVRAplXb3rO39IoSBvhnGZEvIgICIyDxz3Lnuizva+MtdJPOO9TGoldf5RziYDd63BZWA9RIMEUCIQDMECVXsrFK5XbMQn5yVCvm3zWF1kdCgepf3RSqFDDmAAIgQtty07rN4zBWMjd1qVOtkgOHBAlGaO2Se3LkiNsABYcBAQMEAQAAACIGAiMg8c9y57os72vjLXSTzjvUxqJXX+Uc4mA3etwWVgPUGIA47NlUAACAAQAAgAAAAIAAAAAAAAAAAAAAIgID9BzENiuvd8wl0wrnQVM3pg4cS5hRhEzpwFe74A89q/UYgDjs2VQAAIABAACAAAAAgAEAAAAAAAAAAA==
+$ cd ../aixcoin
+$ src/aixcoin-cli finalizepsbt cHNidP8BAHECAAAAAU8KWkCU7H4MYBiZHmLey6FavV3L3xLfy4tVEZoubx+2AAAAAAD+////AgDh9QUAAAAAFgAUVTwqL9q+W4jp29iZ19DlfMkbGb78eNcXAAAAABYAFLHuX3WRuPs3ypeQOziNw5qFlBH8AAAAAAABAR8AZc0dAAAAABYAFOHBlVRAplXb3rO39IoSBvhnGZEvIgICIyDxz3Lnuizva+MtdJPOO9TGoldf5RziYDd63BZWA9RIMEUCIQDMECVXsrFK5XbMQn5yVCvm3zWF1kdCgepf3RSqFDDmAAIgQtty07rN4zBWMjd1qVOtkgOHBAlGaO2Se3LkiNsABYcBAQMEAQAAACIGAiMg8c9y57os72vjLXSTzjvUxqJXX+Uc4mA3etwWVgPUGIA47NlUAACAAQAAgAAAAIAAAAAAAAAAAAAAIgID9BzENiuvd8wl0wrnQVM3pg4cS5hRhEzpwFe74A89q/UYgDjs2VQAAIABAACAAAAAgAEAAAAAAAAAAA==
 {
   "hex": "020000000001014f0a5a4094ec7e0c6018991e62decba15abd5dcbdf12dfcb8b55119a2e6f1fb60000000000feffffff0200e1f50500000000160014553c2a2fdabe5b88e9dbd899d7d0e57cc91b19befc78d71700000000160014b1ee5f7591b8fb37ca97903b388dc39a859411fc02483045022100cc102557b2b14ae576cc427e72542be6df3585d6474281ea5fdd14aa1430e600022042db72d3bacde33056323775a953ad92038704094668ed927b72e488db0005870121022320f1cf72e7ba2cef6be32d7493ce3bd4c6a2575fe51ce260377adc165603d400000000",
   "complete": true
 }
-$ src/bitcoin-cli sendrawtransaction 020000000001014f0a5a4094ec7e0c6018991e62decba15abd5dcbdf12dfcb8b55119a2e6f1fb60000000000feffffff0200e1f50500000000160014553c2a2fdabe5b88e9dbd899d7d0e57cc91b19befc78d71700000000160014b1ee5f7591b8fb37ca97903b388dc39a859411fc02483045022100cc102557b2b14ae576cc427e72542be6df3585d6474281ea5fdd14aa1430e600022042db72d3bacde33056323775a953ad92038704094668ed927b72e488db0005870121022320f1cf72e7ba2cef6be32d7493ce3bd4c6a2575fe51ce260377adc165603d400000000
+$ src/aixcoin-cli sendrawtransaction 020000000001014f0a5a4094ec7e0c6018991e62decba15abd5dcbdf12dfcb8b55119a2e6f1fb60000000000feffffff0200e1f50500000000160014553c2a2fdabe5b88e9dbd899d7d0e57cc91b19befc78d71700000000160014b1ee5f7591b8fb37ca97903b388dc39a859411fc02483045022100cc102557b2b14ae576cc427e72542be6df3585d6474281ea5fdd14aa1430e600022042db72d3bacde33056323775a953ad92038704094668ed927b72e488db0005870121022320f1cf72e7ba2cef6be32d7493ce3bd4c6a2575fe51ce260377adc165603d400000000
 e51392c82e13bbfe714c73361aff14ac1a1637abf37587a562844ae5a4265adf
 ```
 
@@ -289,6 +289,6 @@ Using the `--wpkh` option will result in P2WPKH addresses with keys derived at `
 Using the `sh_wpkh` option will result in P2SH nested P2WPKH addresses with keys derived at `m/49h/0h/0h/0` for normal receiving keys and `m/49h/0h/0h/1` for change keys.
 
 To actually get the correct address type when using `getnewaddress` from Bitcoin Core, you will need to additionally set `-addresstype=p2sh-segwit` and `-changetype=p2sh-segwit`.
-This can be set in the command line (as shown in the example) or in your bitcoin.conf file.
+This can be set in the command line (as shown in the example) or in your aixcoin.conf file.
 
 Alternative derivation paths can also be chosen using the `--path` option and specifying your own derivation path.

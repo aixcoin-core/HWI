@@ -184,7 +184,7 @@ def parse_path(nstr: str) -> Address:
 def normalize_nfc(txt: Union[str, bytes]) -> bytes:
     """
     Normalize message to NFC and return bytes suitable for protobuf.
-    This seems to be bitcoin-qt standard of doing things.
+    This seems to be aixcoin-qt standard of doing things.
     """
     if isinstance(txt, bytes):
         return txt

@@ -27,14 +27,14 @@ class DeviceEmulator():
     def stop(self):
         pass
 
-def start_bitcoind(bitcoind_path):
+def start_aixcoind(aixcoind_path):
     datadir = tempfile.mkdtemp()
-    bitcoind_proc = subprocess.Popen([bitcoind_path, '-regtest', '-datadir=' + datadir, '-noprinttoconsole', '-fallbackfee=0.0002'])
+    aixcoind_proc = subprocess.Popen([aixcoind_path, '-regtest', '-datadir=' + datadir, '-noprinttoconsole', '-fallbackfee=0.0002'])
 
-    def cleanup_bitcoind():
-        bitcoind_proc.kill()
+    def cleanup_aixcoind():
+        aixcoind_proc.kill()
         shutil.rmtree(datadir)
-    atexit.register(cleanup_bitcoind)
+    atexit.register(cleanup_aixcoind)
     # Wait for cookie file to be created
     while not os.path.exists(datadir + '/regtest/.cookie'):
         time.sleep(0.5)
@@ -43,7 +43,7 @@ def start_bitcoind(bitcoind_path):
         userpass = f.readline().lstrip().rstrip()
     rpc = AuthServiceProxy('http://{}@127.0.0.1:18443'.format(userpass))
 
-    # Wait for bitcoind to be ready
+    # Wait for aixcoind to be ready
     ready = False
     while not ready:
         try:

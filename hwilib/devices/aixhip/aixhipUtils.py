@@ -18,7 +18,7 @@
 """
 
 from .btchipException import *
-from .bitcoinTransaction import *
+from .aixcoinTransaction import *
 from .btchipHelpers import *
 
 def compress_public_key(publicKey):
@@ -36,11 +36,11 @@ def compress_public_key(publicKey):
 		raise BTChipException("Invalid public key format")
 
 def format_transaction(dongleOutputData, trustedInputsAndInputScripts, version=0x01, lockTime=0):
-	transaction = bitcoinTransaction()
+	transaction = aixcoinTransaction()
 	transaction.version = []
 	writeUint32LE(version, transaction.version)
 	for item in trustedInputsAndInputScripts:
-		newInput = bitcoinInput()
+		newInput = aixcoinInput()
 		newInput.prevOut = item[0][4:4+36]
 		newInput.script = item[1]
 		if len(item) > 2:

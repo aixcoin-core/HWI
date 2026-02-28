@@ -11,7 +11,7 @@ Bitcoin repository
 
 CTransaction,CTxIn, CTxOut, etc....:
     data structures that should map to corresponding structures in
-    bitcoin/primitives for transactions only
+    aixcoin/primitives for transactions only
 ser_*, deser_*: functions that handle serialization/deserialization
 """
 
@@ -207,7 +207,7 @@ def ser_sig_compact(r: bytes, s: bytes, recid: bytes) -> bytes:
 
     return sig
 
-# Objects that map to bitcoind objects, which can be serialized/deserialized
+# Objects that map to aixcoind objects, which can be serialized/deserialized
 
 MSG_WITNESS_FLAG = 1 << 30
 
@@ -419,7 +419,7 @@ class CTransaction(object):
         if len(self.vin) == 0:
             flags = struct.unpack("<B", f.read(1))[0]
             # Not sure why flags can't be zero, but this
-            # matches the implementation in bitcoind
+            # matches the implementation in aixcoind
             if (flags != 0):
                 self.vin = deser_vector(f, CTxIn)
                 self.vout = deser_vector(f, CTxOut)

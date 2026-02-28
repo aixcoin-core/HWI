@@ -16,7 +16,7 @@ from hwilib.devices.trezorlib.transport import enumerate_devices
 from hwilib.devices.trezorlib.transport.udp import UdpTransport
 from hwilib.devices.trezorlib.debuglink import TrezorClientDebugLink, load_device_by_mnemonic
 from hwilib.devices.trezorlib import device, messages
-from test_device import DeviceEmulator, DeviceTestCase, start_bitcoind, TestDeviceConnect, TestDisplayAddress, TestGetKeypool, TestGetDescriptors, TestSignMessage, TestSignTx
+from test_device import DeviceEmulator, DeviceTestCase, start_aixcoind, TestDeviceConnect, TestDisplayAddress, TestGetKeypool, TestGetDescriptors, TestSignMessage, TestSignTx
 
 from hwilib.cli import process_commands
 from hwilib.devices.trezor import TrezorClient
@@ -357,12 +357,12 @@ def trezor_test_suite(emulator, rpc, userpass, interface, model_t=False):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Test Trezor implementation')
     parser.add_argument('emulator', help='Path to the Trezor emulator')
-    parser.add_argument('bitcoind', help='Path to bitcoind binary')
+    parser.add_argument('aixcoind', help='Path to aixcoind binary')
     parser.add_argument('--interface', help='Which interface to send commands over', choices=['library', 'cli', 'bindist'], default='library')
     parser.add_argument('--model_t', help='The emulator is for the Trezor T', action='store_true')
     args = parser.parse_args()
 
-    # Start bitcoind
-    rpc, userpass = start_bitcoind(args.bitcoind)
+    # Start aixcoind
+    rpc, userpass = start_aixcoind(args.aixcoind)
 
     sys.exit(not trezor_test_suite(args.emulator, rpc, userpass, args.interface, args.model_t))

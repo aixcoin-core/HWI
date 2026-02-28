@@ -12,7 +12,7 @@ from ..errors import (
     common_err_msgs,
     handle_errors,
 )
-from .btchip.bitcoinTransaction import bitcoinTransaction
+from .btchip.aixcoinTransaction import aixcoinTransaction
 from .btchip.btchip import btchip
 from .btchip.btchipComm import (
     DongleServer,
@@ -255,13 +255,13 @@ class LedgerClient(HardwareWalletClient):
             else:
                 # We only need legacy inputs in the case where all inputs are legacy, we check
                 # later
-                ledger_prevtx = bitcoinTransaction(psbt_in.non_witness_utxo.serialize())
+                ledger_prevtx = aixcoinTransaction(psbt_in.non_witness_utxo.serialize())
                 legacy_inputs.append(self.app.getTrustedInput(ledger_prevtx, txin.prevout.n))
                 legacy_inputs[-1]["sequence"] = seq_hex
                 has_legacy = True
 
             if psbt_in.non_witness_utxo and use_trusted_segwit:
-                ledger_prevtx = bitcoinTransaction(psbt_in.non_witness_utxo.serialize())
+                ledger_prevtx = aixcoinTransaction(psbt_in.non_witness_utxo.serialize())
                 segwit_inputs[-1].update(self.app.getTrustedInput(ledger_prevtx, txin.prevout.n))
 
             pubkeys = []
@@ -331,7 +331,7 @@ class LedgerClient(HardwareWalletClient):
         self.app.signMessagePrepare(keypath, message)
         signature = self.app.signMessageSign()
 
-        # Make signature into standard bitcoin format
+        # Make signature into standard aixcoin format
         rLength = signature[3]
         r = signature[4: 4 + rLength]
         sLength = signature[4 + rLength + 1]

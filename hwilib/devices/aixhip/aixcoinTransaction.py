@@ -17,10 +17,10 @@
 ********************************************************************************
 """
 
-from .bitcoinVarint import *
+from .aixcoinVarint import *
 from binascii import hexlify
 
-class bitcoinInput:
+class aixcoinInput:
 
 	def __init__(self, bufferOffset=None):
 		self.prevOut = ""
@@ -53,7 +53,7 @@ class bitcoinInput:
 		buf += "Sequence : " + hexlify(self.sequence) + "\r\n"
 		return buf
 
-class bitcoinOutput:
+class aixcoinOutput:
 
 	def __init__(self, bufferOffset=None):
 		self.amount = ""
@@ -82,7 +82,7 @@ class bitcoinOutput:
 		return buf
 
 
-class bitcoinTransaction:
+class aixcoinTransaction:
 
 	def __init__(self, data=None):
 		self.version = ""
@@ -103,14 +103,14 @@ class bitcoinTransaction:
 			numInputs = inputSize['value']
 			for _ in range(numInputs):
 				tmp = { 'buffer': data, 'offset' : offset}
-				self.inputs.append(bitcoinInput(tmp))
+				self.inputs.append(aixcoinInput(tmp))
 				offset = tmp['offset']
 			outputSize = readVarint(data, offset)
 			offset += outputSize['size']
 			numOutputs = outputSize['value']
 			for _ in range(numOutputs):
 				tmp = { 'buffer': data, 'offset' : offset}
-				self.outputs.append(bitcoinOutput(tmp))
+				self.outputs.append(aixcoinOutput(tmp))
 				offset = tmp['offset']
 			if self.witness:
 				self.witnessScript = data[offset : len(data) - 4]

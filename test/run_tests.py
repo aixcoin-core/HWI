@@ -8,7 +8,7 @@ from test_base58 import TestBase58
 from test_bech32 import TestSegwitAddress
 from test_coldcard import coldcard_test_suite
 from test_descriptor import TestDescriptor
-from test_device import start_bitcoind
+from test_device import start_aixcoind
 from test_psbt import TestPSBT
 from test_trezor import trezor_test_suite
 from test_ledger import ledger_test_suite
@@ -49,7 +49,7 @@ parser.add_argument('--bitbox-path', dest='bitbox_path', help='Path to Digital B
 parser.add_argument('--ledger-path', dest='ledger_path', help='Path to Ledger emulator', default='work/speculos/speculos.py')
 
 parser.add_argument('--all', help='Run tests on all existing simulators', default=False, action='store_true')
-parser.add_argument('--bitcoind', help='Path to bitcoind', default='work/bitcoin/src/bitcoind')
+parser.add_argument('--aixcoind', help='Path to aixcoind', default='work/aixcoin/src/aixcoind')
 parser.add_argument('--interface', help='Which interface to send commands over', choices=['library', 'cli', 'bindist', 'stdin'], default='library')
 
 parser.set_defaults(trezor=None, trezor_t=None, coldcard=None, keepkey=None, bitbox=None, ledger=None)
@@ -84,8 +84,8 @@ else:
     args.ledger = False if args.ledger is None else args.ledger
 
 if args.trezor or args.trezor_t or args.coldcard or args.ledger or args.keepkey or args.bitbox:
-    # Start bitcoind
-    rpc, userpass = start_bitcoind(args.bitcoind)
+    # Start aixcoind
+    rpc, userpass = start_aixcoind(args.aixcoind)
 
     if success and args.bitbox:
         success &= digitalbitbox_test_suite(args.bitbox_path, rpc, userpass, args.interface)

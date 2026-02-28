@@ -12,7 +12,7 @@ The OS in this case is macOS v10.13.6  (Darwin Kernel Version 17.7.0). In Linux 
 ## Extracting xpubs
 
 Bitcoin Core v0.17.0 and later allows you to retrieve the unspent transaction outputs (utxo)
-relevant for a set of [Output Descriptors](https://github.com/bitcoin/bitcoin/blob/master/doc/descriptors.md) with the `scantxoutset` RPC call.
+relevant for a set of [Output Descriptors](https://github.com/aixcoin/aixcoin/blob/master/doc/descriptors.md) with the `scantxoutset` RPC call.
 
 To retrieve the outputs relevant for a specific hardware wallet it is
 necessary:
@@ -41,7 +41,7 @@ NOTE:
 
 3. The search returns zero outputs (the hardware wallet is empty).
 
-### [BIP44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki)
+### [BIP44](https://github.com/aixcoin/bips/blob/master/bip-0044.mediawiki)
 
 1. To obtain the xpub relative to the last hardened level (m/44h/0h/0h)
 
@@ -62,7 +62,7 @@ NOTE:
 `scantxoutset` RPC call in Bitcoin Core v0.17.0.
 
 ```
-bitcoin-cli scantxoutset start '[{"desc":"pkh(xpub6CyidiQae2HF71YigFJqteLsRi9D1EvZJm1Lr4DWWxFVruf3vDSbfyxD9znqVkUTUzc4EdgxDRoHXn64gMbFXQGKXg5nPNfvyVcpuPNn92n/0/*)","range":100},
+aixcoin-cli scantxoutset start '[{"desc":"pkh(xpub6CyidiQae2HF71YigFJqteLsRi9D1EvZJm1Lr4DWWxFVruf3vDSbfyxD9znqVkUTUzc4EdgxDRoHXn64gMbFXQGKXg5nPNfvyVcpuPNn92n/0/*)","range":100},
  {"desc":"pkh(xpub6CyidiQae2HF71YigFJqteLsRi9D1EvZJm1Lr4DWWxFVruf3vDSbfyxD9znqVkUTUzc4EdgxDRoHXn64gMbFXQGKXg5nPNfvyVcpuPNn92n/1/*)","range":100}]'
 {
   "success": true,
@@ -73,7 +73,7 @@ bitcoin-cli scantxoutset start '[{"desc":"pkh(xpub6CyidiQae2HF71YigFJqteLsRi9D1E
 }
 ```
 
-### [BIP49](https://github.com/bitcoin/bips/blob/master/bip-0049.mediawiki)
+### [BIP49](https://github.com/aixcoin/bips/blob/master/bip-0049.mediawiki)
 
 1. To obtain the xpub relative to the last hardened level (m/49h/0h/0h)
 
@@ -93,7 +93,7 @@ bitcoin-cli scantxoutset start '[{"desc":"pkh(xpub6CyidiQae2HF71YigFJqteLsRi9D1E
 `scantxoutset` RPC call in Bitcoin Core v0.17.0.
 
 ```
-bitcoin-cli scantxoutset start '[{"desc":"sh(wpkh(xpub6DP8WTA5cy2qWzdtjMUpLJHkzonepEZytzxFLMzkrcW7U4prscYnmXRQ8BesvMP3iqgQUWisAU6ipXnZw2HnNreEPYJW6TUCAfmwJPyYgG6/0/*))","range":100},
+aixcoin-cli scantxoutset start '[{"desc":"sh(wpkh(xpub6DP8WTA5cy2qWzdtjMUpLJHkzonepEZytzxFLMzkrcW7U4prscYnmXRQ8BesvMP3iqgQUWisAU6ipXnZw2HnNreEPYJW6TUCAfmwJPyYgG6/0/*))","range":100},
  {"desc":"sh(wpkh(xpub6DP8WTA5cy2qWzdtjMUpLJHkzonepEZytzxFLMzkrcW7U4prscYnmXRQ8BesvMP3iqgQUWisAU6ipXnZw2HnNreEPYJW6TUCAfmwJPyYgG6/1/*))","range":100}]'
 {
   "success": true,
@@ -104,7 +104,7 @@ bitcoin-cli scantxoutset start '[{"desc":"sh(wpkh(xpub6DP8WTA5cy2qWzdtjMUpLJHkzo
 }
 ```
 
-### [BIP84](https://github.com/bitcoin/bips/blob/master/bip-0084.mediawiki)
+### [BIP84](https://github.com/aixcoin/bips/blob/master/bip-0084.mediawiki)
 
 1. To obtain the xpub relative to the last hardened level (m/84h/0h/0h)
 
@@ -125,7 +125,7 @@ bitcoin-cli scantxoutset start '[{"desc":"sh(wpkh(xpub6DP8WTA5cy2qWzdtjMUpLJHkzo
 `scantxoutset` RPC call in Bitcoin Core v0.17.0.
 
 ```
-bitcoin-cli scantxoutset start '[{"desc":"wpkh(xpub6DP9afdc7qsz7s7mwAvciAR2dV6vPC3gyiQbqKDzDcPAq3UQChKPimHc3uCYfTTkpoXdwRTFnVTBdFpM9ysbf6KV34uMqkD3zXr6FzkJtcB/0/*)","range":100},
+aixcoin-cli scantxoutset start '[{"desc":"wpkh(xpub6DP9afdc7qsz7s7mwAvciAR2dV6vPC3gyiQbqKDzDcPAq3UQChKPimHc3uCYfTTkpoXdwRTFnVTBdFpM9ysbf6KV34uMqkD3zXr6FzkJtcB/0/*)","range":100},
  {"desc":"wpkh(xpub6DP9afdc7qsz7s7mwAvciAR2dV6vPC3gyiQbqKDzDcPAq3UQChKPimHc3uCYfTTkpoXdwRTFnVTBdFpM9ysbf6KV34uMqkD3zXr6FzkJtcB/1/*)","range":100}]'
 {
   "success": true,

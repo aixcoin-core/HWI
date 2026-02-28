@@ -18,8 +18,8 @@
 """
 
 from .btchipComm import *
-from .bitcoinTransaction import *
-from .bitcoinVarint import *
+from .aixcoinTransaction import *
+from .aixcoinVarint import *
 from .btchipException import *
 from .btchipHelpers import *
 from binascii import hexlify, unhexlify
@@ -247,7 +247,7 @@ class btchip:
 		outputs = None
 		if rawTx is not None:
 			try:
-				fullTx = bitcoinTransaction(bytearray(rawTx))
+				fullTx = aixcoinTransaction(bytearray(rawTx))
 				outputs = fullTx.serializeOutputs()
 				if len(donglePath) != 0:
 					apdu = [ self.BTCHIP_CLA, self.BTCHIP_INS_HASH_INPUT_FINALIZE_FULL, 0xFF, 0x00 ]

@@ -1,6 +1,6 @@
 # Bitcoin Hardware Wallet Interface
 
-[![Build Status](https://travis-ci.org/bitcoin-core/HWI.svg?branch=master)](https://travis-ci.org/bitcoin-core/HWI)
+[![Build Status](https://travis-ci.org/aixcoin-core/HWI.svg?branch=master)](https://travis-ci.org/aixcoin-core/HWI)
 
 The Bitcoin Hardware Wallet Interface is a Python library and command line tool for interacting with hardware wallets.
 It provides a standard way for software to work with hardware wallets without needing to implement device specific drivers.
@@ -30,7 +30,7 @@ brew install libusb
 ## Install
 
 ```
-git clone https://github.com/bitcoin-core/HWI.git
+git clone https://github.com/aixcoin-core/HWI.git
 cd HWI
 poetry install # or 'pip3 install .' or 'python3 setup.py install'
 ```
@@ -116,7 +116,7 @@ Please also see [docs](docs/) for additional information about each device.
 
 ## Using with Bitcoin Core
 
-See [Using Bitcoin Core with Hardware Wallets](docs/bitcoin-core-usage.md).
+See [Using Bitcoin Core with Hardware Wallets](docs/aixcoin-core-usage.md).
 
 ## License
 
