@@ -4,7 +4,7 @@ from setuptools import setup
 packages = \
 ['hwilib',
  'hwilib.devices',
- 'hwilib.devices.btchip',
+ 'hwilib.devices.aixhip',
  'hwilib.devices.ckcc',
  'hwilib.devices.trezorlib',
  'hwilib.devices.trezorlib.messages',

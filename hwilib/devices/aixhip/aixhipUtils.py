@@ -1,7 +1,7 @@
 """
 *******************************************************************************
-*   BTChip Aixcoin Hardware Wallet Python API
-*   (c) 2014 BTChip - 1BTChip7VfTnrPra5jqci7ejnMguuHogTn
+*   AIXhip Aixcoin Hardware Wallet Python API
+*   (c) 2014 AIXhip - 1AIXhip7VfTnrPra5jqci7ejnMguuHogTn
 *
 *  Licensed under the Apache License, Version 2.0 (the "License");
 *  you may not use this file except in compliance with the License.
@@ -17,9 +17,9 @@
 ********************************************************************************
 """
 
-from .btchipException import *
+from .aixhipException import *
 from .aixcoinTransaction import *
-from .btchipHelpers import *
+from .aixhipHelpers import *
 
 def compress_public_key(publicKey):
 	if publicKey[0] == 0x04:
@@ -33,7 +33,7 @@ def compress_public_key(publicKey):
 	elif publicKey[0] == 0x03 or publicKey[0] == 0x02:
 		return publicKey
 	else:
-		raise BTChipException("Invalid public key format")
+		raise AIXhipException("Invalid public key format")
 
 def format_transaction(dongleOutputData, trustedInputsAndInputScripts, version=0x01, lockTime=0):
 	transaction = aixcoinTransaction()
@@ -55,9 +55,9 @@ def format_transaction(dongleOutputData, trustedInputsAndInputScripts, version=0
 
 def get_regular_input_script(sigHashtype, publicKey):
 	if len(sigHashtype) >= 0x4c:
-		raise BTChipException("Invalid sigHashtype")
+		raise AIXhipException("Invalid sigHashtype")
 	if len(publicKey) >= 0x4c:
-		raise BTChipException("Invalid publicKey")
+		raise AIXhipException("Invalid publicKey")
 	result = [ len(sigHashtype) ]
 	result.extend(sigHashtype)
 	result.append(len(publicKey))
@@ -66,7 +66,7 @@ def get_regular_input_script(sigHashtype, publicKey):
 
 def write_pushed_data_size(data, buffer):
 	if (len(data) > 0xffff):
-		raise BTChipException("unsupported encoding")
+		raise AIXhipException("unsupported encoding")
 	if (len(data) < 0x4c):
 		buffer.append(len(data))
 	elif (len(data) > 255):
@@ -90,7 +90,7 @@ def get_p2sh_input_script(redeemScript, sigHashtypeList):
 
 def get_p2pk_input_script(sigHashtype):
 	if len(sigHashtype) >= 0x4c:
-		raise BTChipException("Invalid sigHashtype")
+		raise AIXhipException("Invalid sigHashtype")
 	result = [ len(sigHashtype) ]
 	result.extend(sigHashtype)
 	return bytearray(result)
@@ -98,7 +98,7 @@ def get_p2pk_input_script(sigHashtype):
 def get_output_script(amountScriptArray):
 	result = [ len(amountScriptArray) ]
 	for amountScript in amountScriptArray:
-		writeHexAmount(btc_to_satoshi(str(amountScript[0])), result)
+		writeHexAmount(aix_to_satoshi(str(amountScript[0])), result)
 		writeVarint(len(amountScript[1]), result)
 		result.extend(amountScript[1])
 	return bytearray(result)

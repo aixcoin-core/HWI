@@ -1,7 +1,7 @@
 """
 *******************************************************************************
-*   BTChip Aixcoin Hardware Wallet Python API
-*   (c) 2014 BTChip - 1BTChip7VfTnrPra5jqci7ejnMguuHogTn
+*   AIXhip Aixcoin Hardware Wallet Python API
+*   (c) 2014 AIXhip - 1AIXhip7VfTnrPra5jqci7ejnMguuHogTn
 *
 *  Licensed under the Apache License, Version 2.0 (the "License");
 *  you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
 """
 
 from abc import ABCMeta, abstractmethod
-from .btchipException import *
+from .aixhipException import *
 from .ledgerWrapper import wrapCommandAPDU, unwrapResponseAPDU
 from binascii import hexlify
 import time
@@ -124,7 +124,7 @@ class HIDDongleHIDAPI(Dongle, DongleWait):
 		if self.debug:
 			print("<= %s%.2x" % (hexlify(response), sw))
 		if sw != 0x9000:
-			raise BTChipException("Invalid status %04x" % sw, sw)
+			raise AIXhipException("Invalid status %04x" % sw, sw)
 		return response
 
 	def waitFirstResponse(self, timeout):
@@ -134,7 +134,7 @@ class HIDDongleHIDAPI(Dongle, DongleWait):
 			data = self.device.read(65)
 			if not len(data):
 				if time.time() - start > timeout:
-					raise BTChipException("Timeout")
+					raise AIXhipException("Timeout")
 				time.sleep(0.02)
 		return bytearray(data)
 
@@ -156,7 +156,7 @@ class DongleServer(Dongle):
 		try:
 			self.socket.connect((self.server, self.port))
 		except Exception:
-			raise BTChipException("Proxy connection failed")
+			raise AIXhipException("Proxy connection failed")
 
 	def exchange(self, apdu, timeout=20000):
 		if self.debug:
@@ -169,7 +169,7 @@ class DongleServer(Dongle):
 		if self.debug:
 			print("<= %s%.2x" % (hexlify(response), sw))
 		if sw != 0x9000:
-			raise BTChipException("Invalid status %04x" % sw, sw)
+			raise AIXhipException("Invalid status %04x" % sw, sw)
 		return bytearray(response)
 
 	def close(self):

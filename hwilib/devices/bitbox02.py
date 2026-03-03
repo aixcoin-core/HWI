@@ -186,7 +186,7 @@ def enumerate(password: str = "") -> List[Dict[str, object]]:
         if platform != Platform.BITBOX02:
             client.close()
             continue
-        if edition not in (BitBox02Edition.MULTI, BitBox02Edition.BTCONLY):
+        if edition not in (BitBox02Edition.MULTI, BitBox02Edition.AIXONLY):
             client.close()
             continue
 
@@ -198,7 +198,7 @@ def enumerate(password: str = "") -> List[Dict[str, object]]:
                 "path": path,
                 "model": {
                     BitBox02Edition.MULTI: "bitbox02_multi",
-                    BitBox02Edition.BTCONLY: "bitbox02_btconly",
+                    BitBox02Edition.AIXONLY: "bitbox02_aixonly",
                 }[edition],
                 "needs_pin_sent": False,
                 "needs_passphrase_sent": False,
@@ -331,18 +331,18 @@ class Bitbox02Client(HardwareWalletClient):
             "The BitBox02 does not need a PIN sent from the host"
         )
 
-    def _get_coin(self) -> bitbox02.btc.BTCCoin:
+    def _get_coin(self) -> bitbox02.aix.AIXCoin:
         if self.is_testnet:
-            return bitbox02.btc.TBTC
-        return bitbox02.btc.BTC
+            return bitbox02.aix.TAIX
+        return bitbox02.aix.AIX
 
     def _get_xpub(self, keypath: Sequence[int]) -> str:
         xpub_type = (
-            bitbox02.btc.BTCPubRequest.TPUB
+            bitbox02.aix.AIXPubRequest.TPUB
             if self.is_testnet
-            else bitbox02.btc.BTCPubRequest.XPUB
+            else bitbox02.aix.AIXPubRequest.XPUB
         )
-        return self.init().btc_xpub(
+        return self.init().aix_xpub(
             keypath, coin=self._get_coin(), xpub_type=xpub_type, display=False
         )
 
@@ -367,18 +367,18 @@ class Bitbox02Client(HardwareWalletClient):
             raise NotImplementedError("BitBox02 multisig not integrated into HWI yet")
 
         if p2sh_p2wpkh:
-            script_config = bitbox02.btc.BTCScriptConfig(
-                simple_type=bitbox02.btc.BTCScriptConfig.P2WPKH_P2SH
+            script_config = bitbox02.aix.AIXScriptConfig(
+                simple_type=bitbox02.aix.AIXScriptConfig.P2WPKH_P2SH
             )
         elif bech32:
-            script_config = bitbox02.btc.BTCScriptConfig(
-                simple_type=bitbox02.btc.BTCScriptConfig.P2WPKH
+            script_config = bitbox02.aix.AIXScriptConfig(
+                simple_type=bitbox02.aix.AIXScriptConfig.P2WPKH
             )
         else:
             raise UnavailableActionError(
                 "The BitBox02 does not support legacy p2pkh addresses"
             )
-        address = self.init().btc_address(
+        address = self.init().aix_address(
             _parse_path(bip32_path),
             coin=self._get_coin(),
             script_config=script_config,
@@ -410,22 +410,22 @@ class Bitbox02Client(HardwareWalletClient):
 
         def get_simple_type(
             output: CTxOut, redeem_script: bytes
-        ) -> bitbox02.btc.BTCScriptConfig.SimpleType:
+        ) -> bitbox02.aix.AIXScriptConfig.SimpleType:
             if is_p2pkh(output.scriptPubKey):
                 raise BadArgumentError(
                     "The BitBox02 does not support legacy p2pkh scripts"
                 )
             if is_p2wpkh(output.scriptPubKey):
-                return bitbox02.btc.BTCScriptConfig.P2WPKH
+                return bitbox02.aix.AIXScriptConfig.P2WPKH
             if output.is_p2sh() and is_p2wpkh(redeem_script):
-                return bitbox02.btc.BTCScriptConfig.P2WPKH_P2SH
+                return bitbox02.aix.AIXScriptConfig.P2WPKH_P2SH
             raise BadArgumentError(
                 "Input script type not recognized of input {}.".format(input_index)
             )
 
         master_fp = struct.unpack("<I", unhexlify(self.get_master_fingerprint_hex()))[0]
 
-        inputs: List[bitbox02.BTCInputType] = []
+        inputs: List[bitbox02.AIXInputType] = []
 
         bip44_account = None
 
@@ -491,8 +491,8 @@ class Bitbox02Client(HardwareWalletClient):
             simple_type = get_simple_type(utxo, psbt_in.redeem_script)
 
             script_config_index_map = {
-                bitbox02.btc.BTCScriptConfig.P2WPKH: 0,
-                bitbox02.btc.BTCScriptConfig.P2WPKH_P2SH: 1,
+                bitbox02.aix.AIXScriptConfig.P2WPKH: 0,
+                bitbox02.aix.AIXScriptConfig.P2WPKH_P2SH: 1,
             }
 
             inputs.append(
@@ -526,7 +526,7 @@ class Bitbox02Client(HardwareWalletClient):
                 }
             )
 
-        outputs: List[bitbox02.BTCOutputType] = []
+        outputs: List[bitbox02.AIXOutputType] = []
         for output_index, (psbt_out, tx_out) in builtins.enumerate(
             zip(psbt.outputs, psbt.tx.vout)
         ):
@@ -536,7 +536,7 @@ class Bitbox02Client(HardwareWalletClient):
                 assert keypath is not None
                 simple_type = get_simple_type(tx_out, psbt_out.redeem_script)
                 outputs.append(
-                    bitbox02.BTCOutputInternal(
+                    bitbox02.AIXOutputInternal(
                         keypath=keypath,
                         value=tx_out.nValue,
                         script_config_index=script_config_index_map[simple_type],
@@ -544,16 +544,16 @@ class Bitbox02Client(HardwareWalletClient):
                 )
             else:
                 if tx_out.is_p2pkh():
-                    output_type = bitbox02.btc.P2PKH
+                    output_type = bitbox02.aix.P2PKH
                     output_hash = tx_out.scriptPubKey[3:23]
                 elif is_p2wpkh(tx_out.scriptPubKey):
-                    output_type = bitbox02.btc.P2WPKH
+                    output_type = bitbox02.aix.P2WPKH
                     output_hash = tx_out.scriptPubKey[2:]
                 elif tx_out.is_p2sh():
-                    output_type = bitbox02.btc.P2SH
+                    output_type = bitbox02.aix.P2SH
                     output_hash = tx_out.scriptPubKey[2:22]
                 elif is_p2wsh(tx_out.scriptPubKey):
-                    output_type = bitbox02.btc.P2WSH
+                    output_type = bitbox02.aix.P2WSH
                     output_hash = tx_out.scriptPubKey[2:]
                 else:
                     raise BadArgumentError(
@@ -561,7 +561,7 @@ class Bitbox02Client(HardwareWalletClient):
                     )
 
                 outputs.append(
-                    bitbox02.BTCOutputExternal(
+                    bitbox02.AIXOutputExternal(
                         output_type=output_type,
                         output_hash=output_hash,
                         value=tx_out.nValue,
@@ -571,18 +571,18 @@ class Bitbox02Client(HardwareWalletClient):
         assert bip44_account is not None
 
         bip44_network = 1 + HARDENED if self.is_testnet else 0 + HARDENED
-        sigs = self.init().btc_sign(
-            bitbox02.btc.TBTC if self.is_testnet else bitbox02.btc.BTC,
+        sigs = self.init().aix_sign(
+            bitbox02.aix.TAIX if self.is_testnet else bitbox02.aix.AIX,
             [
-                bitbox02.btc.BTCScriptConfigWithKeypath(
-                    script_config=bitbox02.btc.BTCScriptConfig(
-                        simple_type=bitbox02.btc.BTCScriptConfig.P2WPKH
+                bitbox02.aix.AIXScriptConfigWithKeypath(
+                    script_config=bitbox02.aix.AIXScriptConfig(
+                        simple_type=bitbox02.aix.AIXScriptConfig.P2WPKH
                     ),
                     keypath=[84 + HARDENED, bip44_network, bip44_account],
                 ),
-                bitbox02.btc.BTCScriptConfigWithKeypath(
-                    script_config=bitbox02.btc.BTCScriptConfig(
-                        simple_type=bitbox02.btc.BTCScriptConfig.P2WPKH_P2SH
+                bitbox02.aix.AIXScriptConfigWithKeypath(
+                    script_config=bitbox02.aix.AIXScriptConfig(
+                        simple_type=bitbox02.aix.AIXScriptConfig.P2WPKH_P2SH
                     ),
                     keypath=[49 + HARDENED, bip44_network, bip44_account],
                 ),

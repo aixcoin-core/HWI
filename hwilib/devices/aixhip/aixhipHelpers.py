@@ -1,7 +1,7 @@
 """
 *******************************************************************************
-*   BTChip Aixcoin Hardware Wallet Python API
-*   (c) 2014 BTChip - 1BTChip7VfTnrPra5jqci7ejnMguuHogTn
+*   AIXhip Aixcoin Hardware Wallet Python API
+*   (c) 2014 AIXhip - 1AIXhip7VfTnrPra5jqci7ejnMguuHogTn
 *
 *  Licensed under the Apache License, Version 2.0 (the "License");
 *  you may not use this file except in compliance with the License.
@@ -24,14 +24,14 @@ import re
 SATOSHI_PER_COIN = decimal.Decimal(1e8)
 COIN_PER_SATOSHI = decimal.Decimal(1)/SATOSHI_PER_COIN
 
-def satoshi_to_btc(satoshi_count):
+def satoshi_to_aix(satoshi_count):
     if satoshi_count == 0:
         return decimal.Decimal(0)
     r = satoshi_count * COIN_PER_SATOSHI
     return r.normalize()
 
-def btc_to_satoshi(btc):
-    return int(decimal.Decimal(btc) * SATOSHI_PER_COIN)
+def aix_to_satoshi(aix):
+    return int(decimal.Decimal(aix) * SATOSHI_PER_COIN)
 # /from pycoin
 
 def writeUint32BE(value, buffer):
@@ -76,7 +76,7 @@ def parse_bip32_path(path):
 	result = []
 	elements = path.split('/')
 	if len(elements) > 10:
-		raise BTChipException("Path too long")
+		raise AIXhipException("Path too long")
 	for pathElement in elements:
 		element = re.split('\'|h|H', pathElement)
 		if len(element) == 1:

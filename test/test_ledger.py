@@ -27,7 +27,7 @@ class LedgerEmulator(DeviceEmulator):
     def start(self):
         self.emulator_stderr = open('ledger-emulator.stderr', 'a')
         # Start the emulator
-        self.emulator_proc = subprocess.Popen(['python3', './' + os.path.basename(self.emulator_path), '--display', 'headless', './apps/btc.elf'], cwd=os.path.dirname(self.emulator_path), stderr=self.emulator_stderr, preexec_fn=os.setsid)
+        self.emulator_proc = subprocess.Popen(['python3', './' + os.path.basename(self.emulator_path), '--display', 'headless', './apps/aix.elf'], cwd=os.path.dirname(self.emulator_path), stderr=self.emulator_stderr, preexec_fn=os.setsid)
         # Wait for simulator to be up
         while True:
             try:

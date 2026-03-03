@@ -12,14 +12,14 @@ from ..errors import (
     common_err_msgs,
     handle_errors,
 )
-from .btchip.aixcoinTransaction import aixcoinTransaction
-from .btchip.btchip import btchip
-from .btchip.btchipComm import (
+from .aixhip.aixcoinTransaction import aixcoinTransaction
+from .aixhip.aixhip import aixhip
+from .aixhip.aixhipComm import (
     DongleServer,
     HIDDongleHIDAPI,
 )
-from .btchip.btchipException import BTChipException
-from .btchip.btchipUtils import compress_public_key
+from .aixhip.aixhipException import AIXhipException
+from .aixhip.aixhipUtils import compress_public_key
 import base64
 import hid
 import struct
@@ -64,15 +64,15 @@ def check_keypath(key_path):
     return True
 
 bad_args = [
-    0x6700, # BTCHIP_SW_INCORRECT_LENGTH
-    0x6A80, # BTCHIP_SW_INCORRECT_DATA
-    0x6B00, # BTCHIP_SW_INCORRECT_P1_P2
-    0x6D00, # BTCHIP_SW_INS_NOT_SUPPORTED
+    0x6700, # AIXHIP_SW_INCORRECT_LENGTH
+    0x6A80, # AIXHIP_SW_INCORRECT_DATA
+    0x6B00, # AIXHIP_SW_INCORRECT_P1_P2
+    0x6D00, # AIXHIP_SW_INS_NOT_SUPPORTED
 ]
 
 cancels = [
-    0x6982, # BTCHIP_SW_SECURITY_STATUS_NOT_SATISFIED
-    0x6985, # BTCHIP_SW_CONDITIONS_OF_USE_NOT_SATISFIED
+    0x6982, # AIXHIP_SW_SECURITY_STATUS_NOT_SATISFIED
+    0x6985, # AIXHIP_SW_CONDITIONS_OF_USE_NOT_SATISFIED
 ]
 
 def ledger_exception(f):
@@ -81,12 +81,12 @@ def ledger_exception(f):
             return f(*args, **kwargs)
         except ValueError as e:
             raise BadArgumentError(str(e))
-        except BTChipException as e:
+        except AIXhipException as e:
             if e.sw in bad_args:
                 raise BadArgumentError('Bad argument')
-            elif e.sw == 0x6F00: # BTCHIP_SW_TECHNICAL_PROBLEM
+            elif e.sw == 0x6F00: # AIXHIP_SW_TECHNICAL_PROBLEM
                 raise DeviceFailureError(e.message)
-            elif e.sw == 0x6FAA: # BTCHIP_SW_HALTED
+            elif e.sw == 0x6FAA: # AIXHIP_SW_HALTED
                 raise DeviceConnectionError('Device is asleep')
             elif e.sw in cancels:
                 raise ActionCanceledError('{} canceled'.format(f.__name__))
@@ -112,7 +112,7 @@ class LedgerClient(HardwareWalletClient):
 
             self.dongle = HIDDongleHIDAPI(device, True, logging.getLogger().getEffectiveLevel() == logging.DEBUG)
 
-        self.app = btchip(self.dongle)
+        self.app = aixhip(self.dongle)
 
     # Must return a dict with the xpub
     # Retrieves the public key at the specified BIP 32 derivation path
@@ -419,7 +419,7 @@ def enumerate(password=''):
                     d_data['fingerprint'] = client.get_master_fingerprint_hex()
                     d_data['needs_pin_sent'] = False
                     d_data['needs_passphrase_sent'] = False
-                except BTChipException:
+                except AIXhipException:
                     # Ignore simulator if there's an exception, means it isn't there
                     if path == SIMULATOR_PATH:
                         continue

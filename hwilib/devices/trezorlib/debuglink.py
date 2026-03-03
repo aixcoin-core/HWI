@@ -468,7 +468,7 @@ def load_device_by_xprv(client, xprv, pin, passphrase_protection, label, languag
     if data[90:92] != "00":
         raise ValueError("Contain invalid private key")
 
-    checksum = (tools.btc_hash(bytes.fromhex(data[:156]))[:4]).hex()
+    checksum = (tools.aix_hash(bytes.fromhex(data[:156]))[:4]).hex()
     if checksum != data[156:]:
         raise ValueError("Checksum doesn't match")
 

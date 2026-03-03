@@ -1,7 +1,7 @@
 """
 *******************************************************************************
-*   BTChip Aixcoin Hardware Wallet Python API
-*   (c) 2014 BTChip - 1BTChip7VfTnrPra5jqci7ejnMguuHogTn
+*   AIXhip Aixcoin Hardware Wallet Python API
+*   (c) 2014 AIXhip - 1AIXhip7VfTnrPra5jqci7ejnMguuHogTn
 *
 *  Licensed under the Apache License, Version 2.0 (the "License");
 *  you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 ********************************************************************************
 """
 
-class BTChipException(Exception):
+class AIXhipException(Exception):
 
 	def __init__(self, message, sw=0x6f00):
 		self.message = message

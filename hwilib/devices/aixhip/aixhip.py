@@ -1,7 +1,7 @@
 """
 *******************************************************************************
-*   BTChip Aixcoin Hardware Wallet Python API
-*   (c) 2014 BTChip - 1BTChip7VfTnrPra5jqci7ejnMguuHogTn
+*   AIXhip Aixcoin Hardware Wallet Python API
+*   (c) 2014 AIXhip - 1AIXhip7VfTnrPra5jqci7ejnMguuHogTn
 *
 *  Licensed under the Apache License, Version 2.0 (the "License");
 *  you may not use this file except in compliance with the License.
@@ -17,48 +17,48 @@
 ********************************************************************************
 """
 
-from .btchipComm import *
+from .aixhipComm import *
 from .aixcoinTransaction import *
 from .aixcoinVarint import *
-from .btchipException import *
-from .btchipHelpers import *
+from .aixhipException import *
+from .aixhipHelpers import *
 from binascii import hexlify, unhexlify
 
-class btchip:
-	BTCHIP_CLA = 0xe0
-	BTCHIP_JC_EXT_CLA = 0xf0
+class aixhip:
+	AIXHIP_CLA = 0xe0
+	AIXHIP_JC_EXT_CLA = 0xf0
 
-	BTCHIP_INS_SET_ALTERNATE_COIN_VERSION = 0x14
-	BTCHIP_INS_SETUP = 0x20
-	BTCHIP_INS_VERIFY_PIN = 0x22
-	BTCHIP_INS_GET_OPERATION_MODE = 0x24
-	BTCHIP_INS_SET_OPERATION_MODE = 0x26
-	BTCHIP_INS_SET_KEYMAP = 0x28
-	BTCHIP_INS_SET_COMM_PROTOCOL = 0x2a
-	BTCHIP_INS_GET_WALLET_PUBLIC_KEY = 0x40
-	BTCHIP_INS_GET_TRUSTED_INPUT = 0x42
-	BTCHIP_INS_HASH_INPUT_START = 0x44
-	BTCHIP_INS_HASH_INPUT_FINALIZE = 0x46
-	BTCHIP_INS_HASH_SIGN = 0x48
-	BTCHIP_INS_HASH_INPUT_FINALIZE_FULL = 0x4a
-	BTCHIP_INS_GET_INTERNAL_CHAIN_INDEX = 0x4c
-	BTCHIP_INS_SIGN_MESSAGE = 0x4e
-	BTCHIP_INS_GET_TRANSACTION_LIMIT = 0xa0
-	BTCHIP_INS_SET_TRANSACTION_LIMIT = 0xa2
-	BTCHIP_INS_IMPORT_PRIVATE_KEY = 0xb0
-	BTCHIP_INS_GET_PUBLIC_KEY = 0xb2
-	BTCHIP_INS_DERIVE_BIP32_KEY = 0xb4
-	BTCHIP_INS_SIGNVERIFY_IMMEDIATE = 0xb6
-	BTCHIP_INS_GET_RANDOM = 0xc0
-	BTCHIP_INS_GET_ATTESTATION = 0xc2
-	BTCHIP_INS_GET_FIRMWARE_VERSION = 0xc4
-	BTCHIP_INS_COMPOSE_MOFN_ADDRESS = 0xc6
-	BTCHIP_INS_GET_POS_SEED = 0xca
+	AIXHIP_INS_SET_ALTERNATE_COIN_VERSION = 0x14
+	AIXHIP_INS_SETUP = 0x20
+	AIXHIP_INS_VERIFY_PIN = 0x22
+	AIXHIP_INS_GET_OPERATION_MODE = 0x24
+	AIXHIP_INS_SET_OPERATION_MODE = 0x26
+	AIXHIP_INS_SET_KEYMAP = 0x28
+	AIXHIP_INS_SET_COMM_PROTOCOL = 0x2a
+	AIXHIP_INS_GET_WALLET_PUBLIC_KEY = 0x40
+	AIXHIP_INS_GET_TRUSTED_INPUT = 0x42
+	AIXHIP_INS_HASH_INPUT_START = 0x44
+	AIXHIP_INS_HASH_INPUT_FINALIZE = 0x46
+	AIXHIP_INS_HASH_SIGN = 0x48
+	AIXHIP_INS_HASH_INPUT_FINALIZE_FULL = 0x4a
+	AIXHIP_INS_GET_INTERNAL_CHAIN_INDEX = 0x4c
+	AIXHIP_INS_SIGN_MESSAGE = 0x4e
+	AIXHIP_INS_GET_TRANSACTION_LIMIT = 0xa0
+	AIXHIP_INS_SET_TRANSACTION_LIMIT = 0xa2
+	AIXHIP_INS_IMPORT_PRIVATE_KEY = 0xb0
+	AIXHIP_INS_GET_PUBLIC_KEY = 0xb2
+	AIXHIP_INS_DERIVE_BIP32_KEY = 0xb4
+	AIXHIP_INS_SIGNVERIFY_IMMEDIATE = 0xb6
+	AIXHIP_INS_GET_RANDOM = 0xc0
+	AIXHIP_INS_GET_ATTESTATION = 0xc2
+	AIXHIP_INS_GET_FIRMWARE_VERSION = 0xc4
+	AIXHIP_INS_COMPOSE_MOFN_ADDRESS = 0xc6
+	AIXHIP_INS_GET_POS_SEED = 0xca
 
-	BTCHIP_INS_EXT_GET_HALF_PUBLIC_KEY = 0x20
-	BTCHIP_INS_EXT_CACHE_PUT_PUBLIC_KEY = 0x22
-	BTCHIP_INS_EXT_CACHE_HAS_PUBLIC_KEY = 0x24
-	BTCHIP_INS_EXT_CACHE_GET_FEATURES = 0x26
+	AIXHIP_INS_EXT_GET_HALF_PUBLIC_KEY = 0x20
+	AIXHIP_INS_EXT_CACHE_PUT_PUBLIC_KEY = 0x22
+	AIXHIP_INS_EXT_CACHE_HAS_PUBLIC_KEY = 0x24
+	AIXHIP_INS_EXT_CACHE_GET_FEATURES = 0x26
 
 	OPERATION_MODE_WALLET = 0x01
 	OPERATION_MODE_RELAXED_WALLET = 0x02 
@@ -92,7 +92,7 @@ class btchip:
 		donglePath = parse_bip32_path(path)
 		if self.needKeyCache:
 			self.resolvePublicKeysInPath(path)			
-		apdu = [ self.BTCHIP_CLA, self.BTCHIP_INS_GET_WALLET_PUBLIC_KEY, 0x01 if showOnScreen else 0x00, 0x03 if cashAddr else 0x02 if segwitNative else 0x01 if segwit else 0x00, len(donglePath) ]
+		apdu = [ self.AIXHIP_CLA, self.AIXHIP_INS_GET_WALLET_PUBLIC_KEY, 0x01 if showOnScreen else 0x00, 0x03 if cashAddr else 0x02 if segwitNative else 0x01 if segwit else 0x00, len(donglePath) ]
 		apdu.extend(donglePath)
 		response = self.dongle.exchange(bytearray(apdu))
 		offset = 0
@@ -106,7 +106,7 @@ class btchip:
 	def getTrustedInput(self, transaction, index):
 		result = {}
 		# Header
-		apdu = [ self.BTCHIP_CLA, self.BTCHIP_INS_GET_TRUSTED_INPUT, 0x00, 0x00 ]
+		apdu = [ self.AIXHIP_CLA, self.AIXHIP_INS_GET_TRUSTED_INPUT, 0x00, 0x00 ]
 		params = bytearray.fromhex("%.8x" % (index))
 		params.extend(transaction.version)
 		writeVarint(len(transaction.inputs), params)
@@ -115,7 +115,7 @@ class btchip:
 		self.dongle.exchange(bytearray(apdu))
 		# Each input
 		for trinput in transaction.inputs:
-			apdu = [ self.BTCHIP_CLA, self.BTCHIP_INS_GET_TRUSTED_INPUT, 0x80, 0x00 ]
+			apdu = [ self.AIXHIP_CLA, self.AIXHIP_INS_GET_TRUSTED_INPUT, 0x80, 0x00 ]
 			params = bytearray(trinput.prevOut)
 			writeVarint(len(trinput.script), params)
 			apdu.append(len(params))
@@ -131,14 +131,14 @@ class btchip:
 				params = bytearray(trinput.script[offset : offset + dataLength])
 				if ((offset + dataLength) == len(trinput.script)):
 					params.extend(trinput.sequence)
-				apdu = [ self.BTCHIP_CLA, self.BTCHIP_INS_GET_TRUSTED_INPUT, 0x80, 0x00, len(params) ]
+				apdu = [ self.AIXHIP_CLA, self.AIXHIP_INS_GET_TRUSTED_INPUT, 0x80, 0x00, len(params) ]
 				apdu.extend(params)
 				self.dongle.exchange(bytearray(apdu))
 				offset += dataLength
 				if (offset >= len(trinput.script)):
 					break
 		# Number of outputs
-		apdu = [ self.BTCHIP_CLA, self.BTCHIP_INS_GET_TRUSTED_INPUT, 0x80, 0x00 ]
+		apdu = [ self.AIXHIP_CLA, self.AIXHIP_INS_GET_TRUSTED_INPUT, 0x80, 0x00 ]
 		params = []
 		writeVarint(len(transaction.outputs), params)
 		apdu.append(len(params))
@@ -147,7 +147,7 @@ class btchip:
 		# Each output
 		indexOutput = 0
 		for troutput in transaction.outputs:
-			apdu = [ self.BTCHIP_CLA, self.BTCHIP_INS_GET_TRUSTED_INPUT, 0x80, 0x00 ]
+			apdu = [ self.AIXHIP_CLA, self.AIXHIP_INS_GET_TRUSTED_INPUT, 0x80, 0x00 ]
 			params = bytearray(troutput.amount)
 			writeVarint(len(troutput.script), params)
 			apdu.append(len(params))
@@ -160,12 +160,12 @@ class btchip:
 					dataLength = blockLength
 				else:
 					dataLength = len(troutput.script) - offset
-				apdu = [ self.BTCHIP_CLA, self.BTCHIP_INS_GET_TRUSTED_INPUT, 0x80, 0x00, dataLength ]
+				apdu = [ self.AIXHIP_CLA, self.AIXHIP_INS_GET_TRUSTED_INPUT, 0x80, 0x00, dataLength ]
 				apdu.extend(troutput.script[offset : offset + dataLength])
 				self.dongle.exchange(bytearray(apdu))
 				offset += dataLength
 		# Locktime
-		apdu = [ self.BTCHIP_CLA, self.BTCHIP_INS_GET_TRUSTED_INPUT, 0x80, 0x00, len(transaction.lockTime) ]
+		apdu = [ self.AIXHIP_CLA, self.AIXHIP_INS_GET_TRUSTED_INPUT, 0x80, 0x00, len(transaction.lockTime) ]
 		apdu.extend(transaction.lockTime)
 		response = self.dongle.exchange(bytearray(apdu))
 		result['trustedInput'] = True
@@ -187,7 +187,7 @@ class btchip:
 				p2 = 0x00
 		else:
 				p2 = 0x10 if continueSegwit else 0x80
-		apdu = [ self.BTCHIP_CLA, self.BTCHIP_INS_HASH_INPUT_START, 0x00, p2 ]
+		apdu = [ self.AIXHIP_CLA, self.AIXHIP_INS_HASH_INPUT_START, 0x00, p2 ]
 		params = bytearray([version, 0x00, 0x00, 0x00])
 		writeVarint(len(outputList), params)
 		apdu.append(len(params))
@@ -200,7 +200,7 @@ class btchip:
 				sequence = bytearray(unhexlify(passedOutput['sequence']))
 			else:
 				sequence = bytearray([0xFF, 0xFF, 0xFF, 0xFF]) # default sequence
-			apdu = [ self.BTCHIP_CLA, self.BTCHIP_INS_HASH_INPUT_START, 0x80, 0x00 ]
+			apdu = [ self.AIXHIP_CLA, self.AIXHIP_INS_HASH_INPUT_START, 0x80, 0x00 ]
 			params = []
 			script = bytearray(redeemScript)
 			if ('trustedInput' in passedOutput) and passedOutput['trustedInput']:
@@ -228,12 +228,12 @@ class btchip:
 				params = script[offset : offset + dataLength]
 				if ((offset + dataLength) == len(script)):
 					params.extend(sequence)
-				apdu = [ self.BTCHIP_CLA, self.BTCHIP_INS_HASH_INPUT_START, 0x80, 0x00, len(params) ]
+				apdu = [ self.AIXHIP_CLA, self.AIXHIP_INS_HASH_INPUT_START, 0x80, 0x00, len(params) ]
 				apdu.extend(params)
 				self.dongle.exchange(bytearray(apdu))
 				offset += blockLength
 			if len(script) == 0:
-			    apdu = [ self.BTCHIP_CLA, self.BTCHIP_INS_HASH_INPUT_START, 0x80, 0x00, len(sequence) ]
+			    apdu = [ self.AIXHIP_CLA, self.AIXHIP_INS_HASH_INPUT_START, 0x80, 0x00, len(sequence) ]
 			    apdu.extend(sequence)
 			    self.dongle.exchange(bytearray(apdu))
 			currentIndex += 1
@@ -250,7 +250,7 @@ class btchip:
 				fullTx = aixcoinTransaction(bytearray(rawTx))
 				outputs = fullTx.serializeOutputs()
 				if len(donglePath) != 0:
-					apdu = [ self.BTCHIP_CLA, self.BTCHIP_INS_HASH_INPUT_FINALIZE_FULL, 0xFF, 0x00 ]
+					apdu = [ self.AIXHIP_CLA, self.AIXHIP_INS_HASH_INPUT_FINALIZE_FULL, 0xFF, 0x00 ]
 					params = []
 					params.extend(donglePath)
 					apdu.append(len(params))
@@ -265,7 +265,7 @@ class btchip:
 					else:
 						dataLength = len(outputs) - offset
 						p1 = 0x80
-					apdu = [ self.BTCHIP_CLA, self.BTCHIP_INS_HASH_INPUT_FINALIZE_FULL, \
+					apdu = [ self.AIXHIP_CLA, self.AIXHIP_INS_HASH_INPUT_FINALIZE_FULL, \
 						p1, 0x00, dataLength ]
 					apdu.extend(outputs[offset : offset + dataLength])
 					response = self.dongle.exchange(bytearray(apdu))
@@ -274,12 +274,12 @@ class btchip:
 			except Exception:
 				pass
 		if not alternateEncoding:
-			apdu = [ self.BTCHIP_CLA, self.BTCHIP_INS_HASH_INPUT_FINALIZE, 0x02, 0x00 ]
+			apdu = [ self.AIXHIP_CLA, self.AIXHIP_INS_HASH_INPUT_FINALIZE, 0x02, 0x00 ]
 			params = []
 			params.append(len(outputAddress))
 			params.extend(bytearray(outputAddress))
-			writeHexAmountBE(btc_to_satoshi(str(amount)), params)
-			writeHexAmountBE(btc_to_satoshi(str(fees)), params)
+			writeHexAmountBE(aix_to_satoshi(str(amount)), params)
+			writeHexAmountBE(aix_to_satoshi(str(fees)), params)
 			params.extend(donglePath)
 			apdu.append(len(params))
 			apdu.extend(params)
@@ -311,7 +311,7 @@ class btchip:
 		donglePath = parse_bip32_path(path)
 		if self.needKeyCache:
 			self.resolvePublicKeysInPath(path)		
-		apdu = [ self.BTCHIP_CLA, self.BTCHIP_INS_HASH_SIGN, 0x00, 0x00 ]
+		apdu = [ self.AIXHIP_CLA, self.AIXHIP_INS_HASH_SIGN, 0x00, 0x00 ]
 		params = []
 		params.extend(donglePath)
 		params.append(len(pin))
@@ -346,7 +346,7 @@ class btchip:
 			else:
 				dataLength = len(message) - offset
 			params.extend(bytearray(message[offset : offset + dataLength]))
-			apdu = [ self.BTCHIP_CLA, self.BTCHIP_INS_SIGN_MESSAGE, 0x00, p2 ]
+			apdu = [ self.AIXHIP_CLA, self.AIXHIP_INS_SIGN_MESSAGE, 0x00, p2 ]
 			apdu.append(len(params))
 			apdu.extend(params)
 			response = self.dongle.exchange(bytearray(apdu))
@@ -364,7 +364,7 @@ class btchip:
 	def signMessagePrepare(self, path, message):
 		try:
 			result = self.signMessagePrepareV2(path, message)
-		except BTChipException as e:
+		except AIXhipException as e:
 			if (e.sw == 0x6b00): # Old firmware version, try older method
 				result = self.signMessagePrepareV1(path, message)
 			else:
@@ -374,7 +374,7 @@ class btchip:
 	def signMessageSign(self, pin=""):
 		if isinstance(pin, str):
 			pin = pin.encode('utf-8')
-		apdu = [ self.BTCHIP_CLA, self.BTCHIP_INS_SIGN_MESSAGE, 0x80, 0x00 ]
+		apdu = [ self.AIXHIP_CLA, self.AIXHIP_INS_SIGN_MESSAGE, 0x80, 0x00 ]
 		params = []
 		if pin is not None:
 			params.append(len(pin))
@@ -388,10 +388,10 @@ class btchip:
 
 	def getFirmwareVersion(self):
 		result = {}
-		apdu = [ self.BTCHIP_CLA, self.BTCHIP_INS_GET_FIRMWARE_VERSION, 0x00, 0x00, 0x00 ]
+		apdu = [ self.AIXHIP_CLA, self.AIXHIP_INS_GET_FIRMWARE_VERSION, 0x00, 0x00, 0x00 ]
 		try:
 			response = self.dongle.exchange(bytearray(apdu))
-		except BTChipException as e:
+		except AIXhipException as e:
 			if (e.sw == 0x6985):
 				response = [0x00, 0x00, 0x01, 0x04, 0x03 ]
 				pass

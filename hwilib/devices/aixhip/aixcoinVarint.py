@@ -1,7 +1,7 @@
 """
 *******************************************************************************
-*   BTChip Aixcoin Hardware Wallet Python API
-*   (c) 2014 BTChip - 1BTChip7VfTnrPra5jqci7ejnMguuHogTn
+*   AIXhip Aixcoin Hardware Wallet Python API
+*   (c) 2014 AIXhip - 1AIXhip7VfTnrPra5jqci7ejnMguuHogTn
 *
 *  Licensed under the Apache License, Version 2.0 (the "License");
 *  you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 ********************************************************************************
 """
 
-from .btchipException import BTChipException
+from .aixhipException import AIXhipException
 
 def readVarint(buffer, offset):
 	varintSize = 0
@@ -32,7 +32,7 @@ def readVarint(buffer, offset):
 		value = (buffer[offset + 4] << 24) | (buffer[offset + 3] << 16) | (buffer[offset + 2] << 8) | (buffer[offset + 1])
 		varintSize = 5
 	else:
-		raise BTChipException("unsupported varint")
+		raise AIXhipException("unsupported varint")
 	return { "value": value, "size": varintSize }
 
 def writeVarint(value, buffer):
@@ -49,7 +49,7 @@ def writeVarint(value, buffer):
 		buffer.append((value >> 16) & 0xff)
 		buffer.append((value >> 24) & 0xff)
 	else:
-		raise BTChipException("unsupported encoding")
+		raise AIXhipException("unsupported encoding")
 	return buffer
 
 def getVarintSize(value):
@@ -60,4 +60,4 @@ def getVarintSize(value):
 	elif (value <= 0xffffffff):
 		return 5
 	else:
-		raise BTChipException("unsupported encoding")
+		raise AIXhipException("unsupported encoding")

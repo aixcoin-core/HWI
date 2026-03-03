@@ -37,9 +37,9 @@ def H_(x: int) -> int:
     return x | HARDENED_FLAG
 
 
-def btc_hash(data):
+def aix_hash(data):
     """
-    Double-SHA256 hash as used in BTC
+    Double-SHA256 hash as used in AIX
     """
     return hashlib.sha256(hashlib.sha256(data).digest()).digest()
 
@@ -52,7 +52,7 @@ def hash_160(public_key):
 
 def hash_160_to_bc_address(h160, address_type):
     vh160 = struct.pack("<B", address_type) + h160
-    h = btc_hash(vh160)
+    h = aix_hash(vh160)
     addr = vh160 + h[0:4]
     return b58encode(addr)
 
@@ -136,14 +136,14 @@ def b58decode(v, length=None):
 
 
 def b58check_encode(v):
-    checksum = btc_hash(v)[:4]
+    checksum = aix_hash(v)[:4]
     return b58encode(v + checksum)
 
 
 def b58check_decode(v, length=None):
     dec = b58decode(v, length)
     data, checksum = dec[:-4], dec[-4:]
-    if btc_hash(data)[:4] != checksum:
+    if aix_hash(data)[:4] != checksum:
         raise ValueError("invalid checksum")
     return data
 

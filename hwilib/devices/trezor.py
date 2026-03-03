@@ -35,7 +35,7 @@ from .trezorlib.ui import (
 )
 from .trezorlib import (
     tools,
-    btc,
+    aix,
     device,
 )
 from .trezorlib import messages as proto
@@ -167,7 +167,7 @@ class TrezorClient(HardwareWalletClient):
             expanded_path = tools.parse_path(path)
         except ValueError as e:
             raise BadArgumentError(str(e))
-        output = btc.get_public_node(self.client, expanded_path, coin_name=self.coin_name)
+        output = aix.get_public_node(self.client, expanded_path, coin_name=self.coin_name)
         if self.is_testnet:
             result = {'xpub': xpub_main_2_test(output.xpub)}
         else:
@@ -185,7 +185,7 @@ class TrezorClient(HardwareWalletClient):
         self._check_unlocked()
 
         # Get this devices master key fingerprint
-        master_key = btc.get_public_node(self.client, [0x80000000], coin_name='Aixcoin')
+        master_key = aix.get_public_node(self.client, [0x80000000], coin_name='Aixcoin')
         master_fp = get_xpub_fingerprint(master_key.xpub)
 
         # Do multiple passes for multisig
@@ -385,7 +385,7 @@ class TrezorClient(HardwareWalletClient):
             tx_details = proto.SignTx()
             tx_details.version = tx.tx.nVersion
             tx_details.lock_time = tx.tx.nLockTime
-            signed_tx = btc.sign_tx(self.client, self.coin_name, inputs, outputs, tx_details, prevtxs)
+            signed_tx = aix.sign_tx(self.client, self.coin_name, inputs, outputs, tx_details, prevtxs)
 
             # Each input has one signature
             for input_num, (psbt_in, sig) in py_enumerate(list(zip(tx.inputs, signed_tx[0]))):
@@ -405,7 +405,7 @@ class TrezorClient(HardwareWalletClient):
     def sign_message(self, message: Union[str, bytes], keypath: str) -> Dict[str, str]:
         self._check_unlocked()
         path = tools.parse_path(keypath)
-        result = btc.sign_message(self.client, self.coin_name, path, message)
+        result = aix.sign_message(self.client, self.coin_name, path, message)
         return {'signature': base64.b64encode(result.signature).decode('utf-8')}
 
     # Display address of specified type on the device.
@@ -451,7 +451,7 @@ class TrezorClient(HardwareWalletClient):
             expanded_path = tools.parse_path(path)
 
             try:
-                address = btc.get_address(
+                address = aix.get_address(
                     self.client,
                     self.coin_name,
                     expanded_path,
