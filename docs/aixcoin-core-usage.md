@@ -1,6 +1,6 @@
-# Using Bitcoin Core with Hardware Wallets
+# Using Aixcoin Core with Hardware Wallets
 
-This approach is fairly manual, requires the command line, and Bitcoin Core >=0.18.0.
+This approach is fairly manual, requires the command line, and Aixcoin Core >=0.18.0.
 
 Note: For this guide, code lines prefixed with `$` means that the command is typed in the terminal. Lines without `$` are output of the commands.
 
@@ -10,15 +10,15 @@ We are not liable for any coins that may be lost through this method. The softwa
 
 ## Software
 
-### Bitcoin Core
+### Aixcoin Core
 
-This method of using hardware wallets uses Bitcoin Core as the wallet for monitoring the blockchain. It allows a user to use their own full node instead of relying on an SPV wallet or vendor provided software.
+This method of using hardware wallets uses Aixcoin Core as the wallet for monitoring the blockchain. It allows a user to use their own full node instead of relying on an SPV wallet or vendor provided software.
 
-HWI works with Bitcoin Core as of commit [c576979b78b541bf3b4a7cbeee989b55d268e3e1](https://github.com/aixcoin/aixcoin/commit/c576979b78b541bf3b4a7cbeee989b55d268e3e1). It is usable with Bitcoin Core >=0.18.0.
+HWI works with Aixcoin Core as of commit [c576979b78b541bf3b4a7cbeee989b55d268e3e1](https://github.com/aixcoin/aixcoin/commit/c576979b78b541bf3b4a7cbeee989b55d268e3e1). It is usable with Aixcoin Core >=0.18.0.
 
 ## Setup
 
-Clone Bitcoin Core and build it. Clone HWI.
+Clone Aixcoin Core and build it. Clone HWI.
 
 ```
 $ git clone https://github.com/aixcoin/aixcoin.git
@@ -51,7 +51,7 @@ $ ./hwi.py -f 8038ecd9 getkeypool --wpkh 0 1000
 [{"desc": "wpkh([8038ecd9/84h/0h/0h]xpub6DR4rqx16YnCcfwFqgwvJdKiWrjDRzqxYTY44aoyHwZDSeSB5n2tqt42aYr9qPKhSKUdftPdTjhHrKKD6WGKVbuyhMvGH76VyKKZubg8o4P/0/*)#36sal9a4", "internal": false, "range": [0, 1000], "timestamp": "now", "keypool": true, "watchonly": true}, {"desc": "wpkh([8038ecd9/84h/0h/0h]xpub6DR4rqx16YnCcfwFqgwvJdKiWrjDRzqxYTY44aoyHwZDSeSB5n2tqt42aYr9qPKhSKUdftPdTjhHrKKD6WGKVbuyhMvGH76VyKKZubg8o4P/1/*)#nl2rc26w", "internal": true, "range": [0, 1000], "timestamp": "now", "keypool": true, "watchonly": true}]
 ```
 
-We now create a new Bitcoin Core wallet and import the keys into Bitcoin Core. The output is formatted properly for Bitcoin Core so it can be copy and pasted.
+We now create a new Aixcoin Core wallet and import the keys into Aixcoin Core. The output is formatted properly for Aixcoin Core so it can be copy and pasted.
 
 ```
 $ ../aixcoin/src/aixcoin-cli createwallet "coldcard" true
@@ -71,7 +71,7 @@ $ ../aixcoin/src/aixcoin-cli -rpcwallet=coldcard importmulti '[{"desc": "wpkh([8
 ]
 ```
 
-The Bitcoin Core wallet is now setup to watch two thousand keys (1000 normal, 1000 change) from your hardware wallet and you can use it to track your balances and create transactions. The transactions will need to be signed through HWI.
+The Aixcoin Core wallet is now setup to watch two thousand keys (1000 normal, 1000 change) from your hardware wallet and you can use it to track your balances and create transactions. The transactions will need to be signed through HWI.
 
 If the wallet was previously used, you will need to rescan the blockchain. You can either do this using the `rescanblockchain` command or editing the `timestamp` in the `importmulti` command.
 Here are some examples (`<blockheight>` refers to a block height before the wallet was created).
@@ -86,7 +86,7 @@ $ ../aixcoin/src/aixcoin-cli -rpcwallet=coldcard importmulti '[{"internal": true
 
 ## Usage
 
-Usage of this primarily involves Bitcoin Core. Currently the GUI only supports generating new receive addresses (once all of the keys are imported) so this guide will only cover the command line.
+Usage of this primarily involves Aixcoin Core. Currently the GUI only supports generating new receive addresses (once all of the keys are imported) so this guide will only cover the command line.
 
 ### Receiving
 
@@ -135,11 +135,11 @@ $ src/aixcoin-cli -rpcwallet=coldcard getaddressinfo bcrt1qu8qe24zq5e2ahh4nkl6g5
 ```
 Notice how the pubkey is the one that was specified as the very first thing being imported to your wallet.
 
-You can give this out to people as you normally would. When coins are sent to it, you will see them in your Bitcoin Core wallet as watch-only.
+You can give this out to people as you normally would. When coins are sent to it, you will see them in your Aixcoin Core wallet as watch-only.
 
 ## Sending
 
-To send Bitcoin, we will use `walletcreatefundedpsbt`. This will create a Partially Signed Bitcoin Transaction which is funded by inputs from the wallets (i.e. your watching only inputs selected with Bitcoin Core's coin selection algorithm).
+To send Aixcoin, we will use `walletcreatefundedpsbt`. This will create a Partially Signed Aixcoin Transaction which is funded by inputs from the wallets (i.e. your watching only inputs selected with Aixcoin Core's coin selection algorithm).
 This PSBT can be used with HWI to produce a signed PSBT which can then be finalized and broadcast.
 
 For example, suppose I am sending to 1 BTC to bc1q257z5t76hedc36wmmzva05890ny3kxd7xfwrgy. First I create a funded psbt with BIP 32 derivation paths to be included:
@@ -258,7 +258,7 @@ Follow the onscreen instructions, check everything, and approve the transaction.
 {"psbt": "cHNidP8BAHECAAAAAU8KWkCU7H4MYBiZHmLey6FavV3L3xLfy4tVEZoubx+2AAAAAAD+////AgDh9QUAAAAAFgAUVTwqL9q+W4jp29iZ19DlfMkbGb78eNcXAAAAABYAFLHuX3WRuPs3ypeQOziNw5qFlBH8AAAAAAABAR8AZc0dAAAAABYAFOHBlVRAplXb3rO39IoSBvhnGZEvIgICIyDxz3Lnuizva+MtdJPOO9TGoldf5RziYDd63BZWA9RIMEUCIQDMECVXsrFK5XbMQn5yVCvm3zWF1kdCgepf3RSqFDDmAAIgQtty07rN4zBWMjd1qVOtkgOHBAlGaO2Se3LkiNsABYcBAQMEAQAAACIGAiMg8c9y57os72vjLXSTzjvUxqJXX+Uc4mA3etwWVgPUGIA47NlUAACAAQAAgAAAAIAAAAAAAAAAAAAAIgID9BzENiuvd8wl0wrnQVM3pg4cS5hRhEzpwFe74A89q/UYgDjs2VQAAIABAACAAAAAgAEAAAAAAAAAAA=="}
 ```
 
-We can now take the PSBT, finalize it, and broadcast it with Bitcoin Core
+We can now take the PSBT, finalize it, and broadcast it with Aixcoin Core
 
 ```
 $ cd ../aixcoin
@@ -288,7 +288,7 @@ HWI follows BIPs 44, 84, and 49. By default, descriptors will be for P2PKH addre
 Using the `--wpkh` option will result in P2WPKH addresses with keys derived at `m/84h/0h/0h/0` for normal receiving keys and `m/84h/0h/0h/1` for change keys.
 Using the `sh_wpkh` option will result in P2SH nested P2WPKH addresses with keys derived at `m/49h/0h/0h/0` for normal receiving keys and `m/49h/0h/0h/1` for change keys.
 
-To actually get the correct address type when using `getnewaddress` from Bitcoin Core, you will need to additionally set `-addresstype=p2sh-segwit` and `-changetype=p2sh-segwit`.
+To actually get the correct address type when using `getnewaddress` from Aixcoin Core, you will need to additionally set `-addresstype=p2sh-segwit` and `-changetype=p2sh-segwit`.
 This can be set in the command line (as shown in the example) or in your aixcoin.conf file.
 
 Alternative derivation paths can also be chosen using the `--path` option and specifying your own derivation path.

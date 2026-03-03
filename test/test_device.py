@@ -566,7 +566,7 @@ class TestDisplayAddress(DeviceTestCase):
 
                     if addrtype == "wpkh":
                         # removes prefix and checksum since regtest gives
-                        # prefix `bcrt` on Bitcoin Core while wallets return testnet `tb` prefix
+                        # prefix `bcrt` on Aixcoin Core while wallets return testnet `tb` prefix
                         self.assertEqual(addr[4:58], result['address'][2:56])
                     else:
                         self.assertEqual(addr, result['address'])
@@ -583,7 +583,7 @@ class TestDisplayAddress(DeviceTestCase):
         self.assertIn('address', result)
         addr = self.rpc.deriveaddresses(AddChecksum(desc))[0]
         # removes prefix and checksum since regtest gives
-        # prefix `bcrt` on Bitcoin Core while wallets return testnet `tb` prefix
+        # prefix `bcrt` on Aixcoin Core while wallets return testnet `tb` prefix
         self.assertEqual(addr[4:58], result['address'][2:56])
 
 class TestSignMessage(DeviceTestCase):

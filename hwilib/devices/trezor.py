@@ -151,7 +151,7 @@ class TrezorClient(HardwareWalletClient):
         self.type = 'Trezor'
 
     def _check_unlocked(self):
-        self.coin_name = 'Testnet' if self.is_testnet else 'Bitcoin'
+        self.coin_name = 'Testnet' if self.is_testnet else 'Aixcoin'
         self.client.init_device()
         if self.client.features.model == 'T':
             self.client.ui.disallow_passphrase()
@@ -185,7 +185,7 @@ class TrezorClient(HardwareWalletClient):
         self._check_unlocked()
 
         # Get this devices master key fingerprint
-        master_key = btc.get_public_node(self.client, [0x80000000], coin_name='Bitcoin')
+        master_key = btc.get_public_node(self.client, [0x80000000], coin_name='Aixcoin')
         master_fp = get_xpub_fingerprint(master_key.xpub)
 
         # Do multiple passes for multisig
@@ -508,7 +508,7 @@ class TrezorClient(HardwareWalletClient):
     # Prompt for a pin on device
     @trezor_exception
     def prompt_pin(self):
-        self.coin_name = 'Testnet' if self.is_testnet else 'Bitcoin'
+        self.coin_name = 'Testnet' if self.is_testnet else 'Aixcoin'
         self.client.open()
         self.client.init_device()
         if not self.client.features.pin_protection:

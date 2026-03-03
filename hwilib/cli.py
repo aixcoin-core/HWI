@@ -140,7 +140,7 @@ def process_commands(cli_args):
     getmasterxpub_parser.set_defaults(func=getmasterxpub_handler)
 
     signtx_parser = subparsers.add_parser('signtx', help='Sign a PSBT')
-    signtx_parser.add_argument('psbt', help='The Partially Signed Bitcoin Transaction to sign')
+    signtx_parser.add_argument('psbt', help='The Partially Signed Aixcoin Transaction to sign')
     signtx_parser.set_defaults(func=signtx_handler)
 
     getxpub_parser = subparsers.add_parser('getxpub', help='Get an extended public key')
@@ -152,7 +152,7 @@ def process_commands(cli_args):
     signmsg_parser.add_argument('path', help='The BIP 32 derivation path of the key to sign the message with')
     signmsg_parser.set_defaults(func=signmessage_handler)
 
-    getkeypool_parser = subparsers.add_parser('getkeypool', help='Get JSON array of keys that can be imported to Bitcoin Core with importmulti')
+    getkeypool_parser = subparsers.add_parser('getkeypool', help='Get JSON array of keys that can be imported to Aixcoin Core with importmulti')
     kparg_group = getkeypool_parser.add_mutually_exclusive_group()
     kparg_group.add_argument('--keypool', action='store_true', dest='keypool', help='Indicates that the keys are to be imported to the keypool', default=True)
     kparg_group.add_argument('--nokeypool', action='store_false', dest='keypool', help='Indicates that the keys are not to be imported to the keypool', default=False)
@@ -173,7 +173,7 @@ def process_commands(cli_args):
 
     displayaddr_parser = subparsers.add_parser('displayaddress', help='Display an address')
     group = displayaddr_parser.add_mutually_exclusive_group(required=True)
-    group.add_argument('--desc', help='Output Descriptor. E.g. wpkh([00000000/84h/0h/0h]xpub.../0/0), where 00000000 must match --fingerprint and xpub can be obtained with getxpub. See doc/descriptors.md in Bitcoin Core')
+    group.add_argument('--desc', help='Output Descriptor. E.g. wpkh([00000000/84h/0h/0h]xpub.../0/0), where 00000000 must match --fingerprint and xpub can be obtained with getxpub. See doc/descriptors.md in Aixcoin Core')
     group.add_argument('--path', help='The BIP 32 derivation path of the key embedded in the address, default follows BIP43 convention, e.g. m/84h/0h/0h/1/*')
     displayaddr_parser.add_argument('--sh_wpkh', action='store_true', help='Display the p2sh-nested segwit address associated with this key path')
     displayaddr_parser.add_argument('--wpkh', action='store_true', help='Display the bech32 version of the address associated with this key path')

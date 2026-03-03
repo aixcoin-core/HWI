@@ -172,7 +172,7 @@ version = "0.6.1"
 
 [[package]]
 category = "main"
-description = "Implementation of Bitcoin BIP-0039"
+description = "Implementation of Aixcoin BIP-0039"
 name = "mnemonic"
 optional = false
 python-versions = "*"

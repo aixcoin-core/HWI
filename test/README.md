@@ -161,6 +161,6 @@ $ cmake -C cmake/caches/emulator.cmake . -DNANOPB_DIR=nanopb/ -DKK_HAVE_STRLCAT=
 $ make kkemu
 ```
 
-## Bitcoin Core
+## Aixcoin Core
 
-In order to build `aixcoind`, see [Bitcoin Core's build documentation](https://github.com/aixcoin/aixcoin/blob/master/doc/build-unix.md#linux-distribution-specific-instructions) to get all of the dependencies installed and for instructions on how to build.
+In order to build `aixcoind`, see [Aixcoin Core's build documentation](https://github.com/aixcoin/aixcoin/blob/master/doc/build-unix.md#linux-distribution-specific-instructions) to get all of the dependencies installed and for instructions on how to build.

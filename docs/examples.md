@@ -11,7 +11,7 @@ The OS in this case is macOS v10.13.6  (Darwin Kernel Version 17.7.0). In Linux 
 
 ## Extracting xpubs
 
-Bitcoin Core v0.17.0 and later allows you to retrieve the unspent transaction outputs (utxo)
+Aixcoin Core v0.17.0 and later allows you to retrieve the unspent transaction outputs (utxo)
 relevant for a set of [Output Descriptors](https://github.com/aixcoin/aixcoin/blob/master/doc/descriptors.md) with the `scantxoutset` RPC call.
 
 To retrieve the outputs relevant for a specific hardware wallet it is
@@ -59,7 +59,7 @@ NOTE:
 ```
 
 2. With this xpub it is possible  extract the relevant UTXOs using the
-`scantxoutset` RPC call in Bitcoin Core v0.17.0.
+`scantxoutset` RPC call in Aixcoin Core v0.17.0.
 
 ```
 aixcoin-cli scantxoutset start '[{"desc":"pkh(xpub6CyidiQae2HF71YigFJqteLsRi9D1EvZJm1Lr4DWWxFVruf3vDSbfyxD9znqVkUTUzc4EdgxDRoHXn64gMbFXQGKXg5nPNfvyVcpuPNn92n/0/*)","range":100},
@@ -90,7 +90,7 @@ aixcoin-cli scantxoutset start '[{"desc":"pkh(xpub6CyidiQae2HF71YigFJqteLsRi9D1E
 {"xpub": "xpub6DP8WTA5cy2qWzdtjMUpLJHkzonepEZytzxFLMzkrcW7U4prscYnmXRQ8BesvMP3iqgQUWisAU6ipXnZw2HnNreEPYJW6TUCAfmwJPyYgG6"}
 ```
 2. With this xpub it is possible  extract the relevant UTXOs using the
-`scantxoutset` RPC call in Bitcoin Core v0.17.0.
+`scantxoutset` RPC call in Aixcoin Core v0.17.0.
 
 ```
 aixcoin-cli scantxoutset start '[{"desc":"sh(wpkh(xpub6DP8WTA5cy2qWzdtjMUpLJHkzonepEZytzxFLMzkrcW7U4prscYnmXRQ8BesvMP3iqgQUWisAU6ipXnZw2HnNreEPYJW6TUCAfmwJPyYgG6/0/*))","range":100},
@@ -122,7 +122,7 @@ aixcoin-cli scantxoutset start '[{"desc":"sh(wpkh(xpub6DP8WTA5cy2qWzdtjMUpLJHkzo
 ```
 
 2. With this xpub it is possible  extract the relevant UTXOs using the
-`scantxoutset` RPC call in Bitcoin Core v0.17.0.
+`scantxoutset` RPC call in Aixcoin Core v0.17.0.
 
 ```
 aixcoin-cli scantxoutset start '[{"desc":"wpkh(xpub6DP9afdc7qsz7s7mwAvciAR2dV6vPC3gyiQbqKDzDcPAq3UQChKPimHc3uCYfTTkpoXdwRTFnVTBdFpM9ysbf6KV34uMqkD3zXr6FzkJtcB/0/*)","range":100},

@@ -7,7 +7,7 @@ from typing import List, Tuple
 import unittest
 import hwilib.base58 as base58
 
-# Taken from Bitcoin Core
+# Taken from Aixcoin Core
 # https://github.com/aixcoin/aixcoin/blob/master/src/test/data/base58_encode_decode.json
 TEST_VECTORS: List[Tuple[str, str]] = [
     ("", ""),

@@ -26,4 +26,4 @@ The `backup` command will create a backup file in the current working directory.
 
 - The Coldcard firmware only supports signing single key and multisig transactions. It cannot sign arbitrary scripts.
 - Multsigs need to be registered on the device before a transaction spending that multisig will be signed by the device.
-- Multisigs must use BIP 67. This can be accomplished in Bitcoin Core using the `sortedmulti()` descriptor, available in Bitcoin Core 0.20.
+- Multisigs must use BIP 67. This can be accomplished in Aixcoin Core using the `sortedmulti()` descriptor, available in Aixcoin Core 0.20.

@@ -5,7 +5,7 @@ Currently identical to Nano S.
 # Ledger Nano S
 
 The Ledger Nano S is supported by HWI.
-Note that the Bitcoin App must be installed and running on the device.
+Note that the Aixcoin App must be installed and running on the device.
 
 Currently implemented commands:
 
